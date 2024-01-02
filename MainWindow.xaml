@@ -1,0 +1,46 @@
+﻿<Window x:Class="Library_wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Library_wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid ShowGridLines ="False">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <ListBox Grid.Row="0" x:Name="bookList" Width="533" Height="Auto" HorizontalAlignment="Left" Margin="155,16,0,6" Grid.ColumnSpan="3" />
+
+        <TextBox Grid.Row="1" x:Name="nameTextBox" Height="30" VerticalAlignment="Top" Margin="97,113,10,0" Visibility="Hidden"/>
+        <TextBox Grid.Row="1" x:Name="authorTextBox" Height="30" VerticalAlignment="Top" Margin="97,76,10,0" Visibility="Hidden"/>
+        <TextBox Grid.Row="2" x:Name="genreTextBox" Height="30" VerticalAlignment="Top" Margin="97,4,10,0" Visibility="Hidden"/>
+        <TextBox Grid.Row="2" x:Name="yearTextBox" Height="30" VerticalAlignment="Top" Margin="97,39,10,0" Visibility="Hidden"/>
+
+        <TextBlock x:Name="genreTextBlock" Margin="20,7,181,109" Grid.Row="2" Visibility="Hidden">Жанр:</TextBlock>
+        <TextBlock x:Name="authorTextBlock" Margin="20,115,181,0" Grid.Row="1" Visibility="Hidden">Автор:</TextBlock>
+        <TextBlock x:Name="nameTextBlock" Margin="20,81,181,34" Grid.Row="1" Visibility="Hidden">Название:</TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Yellow">Доступные Книги</TextBlock>
+        <TextBlock x:Name="yearTextBlock" Margin="20,40,181,76" Grid.Row="2" Visibility="Hidden">Год:</TextBlock>
+
+        <Button Grid.Row="2" Grid.Column ="1" x:Name ="Button1" Content="Отправить" FontSize="13" Width="80" Height="30"
+		Click="Button_Click">
+            <Button.Background>
+                <SolidColorBrush Opacity="0.5" Color="Blue"/>
+            </Button.Background>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="addBookButton" Content="Добавить" Margin="0,2,187,117" Click="addBookButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="editBookButton" Content="Редактировать" Margin="85,2,93,117" IsEnabled="False"/>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="deleteBookButton" Content="Удалить" Margin="178,3,266,116" Grid.ColumnSpan="2" IsEnabled="False" Click="deleteBookButton_Click"/>
+
+
+    </Grid>
+</Window>
