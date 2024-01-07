@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Library_wpf</id>
+    <version>1.0.0</version>
+    <authors>Library_wpf</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="488d3004a47d2bd8651faaa5d225742da300a855" />
+    <dependencies>
+      <group targetFramework="net8.0-windows7.0">
+        <dependency id="Npgsql" version="8.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net8.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="C:\Users\Aboba\Desktop\Library\Library2\Library_wpf\bin\Debug\net8.0-windows\Library_wpf.runtimeconfig.json" target="lib\net8.0-windows7.0\Library_wpf.runtimeconfig.json" />
+    <file src="C:\Users\Aboba\Desktop\Library\Library2\Library_wpf\bin\Debug\net8.0-windows\Library_wpf.dll" target="lib\net8.0-windows7.0\Library_wpf.dll" />
+  </files>
+</package>

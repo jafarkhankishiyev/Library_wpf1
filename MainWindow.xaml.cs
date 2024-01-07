@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Npgsql;
+using Library_wpf.DB;
 
 namespace Library_wpf;
 
@@ -20,31 +21,46 @@ public partial class MainWindow : Window
 {
     private bool isButton1Clicked = false;
     private bool isAddBookButtonClicked = false;
+    private bool isDeleteBookButtonClicked = false;
+    private bool isEditBookButtonClicked = false;
+    private readonly BookDB _bookDB;
     public MainWindow()
     {
         InitializeComponent();
         _ = ShowBooks();
         switchVisibilityOff();
+        _bookDB = new BookDB();
     }
     private async void Button_Click(object sender, RoutedEventArgs e) 
     {
         isButton1Clicked=true;
-        if(isAddBookButtonClicked)
+        Book book = new Book();
+        book.Name = nameTextBox.Text;
+        book.Author = authorTextBox.Text;
+        book.Genre = genreTextBox.Text;
+        book.Release = yearTextBox.Text;
+        if (isAddBookButtonClicked)
         {
-                Book book = new Book();
-                book.Name = nameTextBox.Text;
-                book.Author = authorTextBox.Text;
-                book.Genre = genreTextBox.Text;
-                book.Release = yearTextBox.Text;
-                int number = await Book.AddBook(book);
+                int number = await _bookDB.AddBook(book);
                 isButton1Clicked = false;
-                bookList.Items.Refresh();
                 switchVisibilityOff();
                 _ = ShowBooks();
+        } else if(isEditBookButtonClicked)
+        {
+            string dataChoicePrepared = "";
+            Book selectedItem = bookList.SelectedItem as Book;
+
         }
     }
-    public void deleteBookButton_Click(object sender, RoutedEventArgs e)
+    public async void deleteBookButton_Click(object sender, RoutedEventArgs e)
     {
+        if(bookList.SelectedItem != null)
+        {
+            Book selectedItem = bookList.SelectedItem as Book;
+            int deleteResult = await Book.DeleteBook(selectedItem);
+            deleteBookButton.IsEnabled = false;
+            _ = ShowBooks();
+        }
 
     }
     public async Task ShowBooks()
@@ -53,8 +69,7 @@ public partial class MainWindow : Window
         bookList.ItemsSource = new List<Book>();
         bookList.ItemsSource = books;
     }
-
-    private async void addBookButton_Click(object sender, RoutedEventArgs e)
+    private void addBookButton_Click(object sender, RoutedEventArgs e)
     {
         switchVisibilityOn();
         nameTextBox.Focus();
@@ -84,6 +99,20 @@ public partial class MainWindow : Window
         authorTextBlock.Visibility = Visibility.Hidden;
         genreTextBlock.Visibility = Visibility.Hidden;
         Button1.Visibility = Visibility.Hidden;
-
      }
+    private void bookList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        deleteBookButton.IsEnabled = true;
+        editBookButton.IsEnabled = true;
+    }
+    private void editBookButton_Click(object sender, RoutedEventArgs e)
+    {
+        isEditBookButtonClicked = true;
+        switchVisibilityOn();
+        Book oldBook = bookList.SelectedItem as Book;
+        nameTextBox.Text = oldBook.Name;
+        authorTextBox.Text = oldBook.Author;
+        genreTextBox.Text = oldBook.Genre;
+        yearTextBox.Text = oldBook.Release;
+    }
 }

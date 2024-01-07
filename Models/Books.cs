@@ -92,11 +92,57 @@ namespace Library_wpf
             int number = await command5.ExecuteNonQueryAsync();
             return number;
         }
+        public static async Task<int> EditBook(Book oldBook, Book newBook)
+        {
+            await using var dataSource = NpgsqlDataSource.Create(DB.GetConnectionString());
+            List<string> dataChoiceList = new List<string>();
+            List<string> dataUpdateList = new List<string>();
+            if (oldBook.Name != newBook.Name)
+            {
+                dataChoiceList.Add("name");
+                dataUpdateList.Add(newBook.Name);
+            } else if(oldBook.Author != newBook.Author)
+            {
+                dataChoiceList.Add("author");
+                dataUpdateList.Add(newBook.Author);
+            } else if(oldBook.Genre != newBook.Genre)
+            {
+                dataChoiceList.Add("genre");
+                dataUpdateList.Add(newBook.Genre);
+            } else if(oldBook.Release != newBook.Release)
+            {
+                dataChoiceList.Add("released");
+                dataUpdateList.Add(newBook.Release);
+            }
+
+            await using var command5 = dataSource.CreateCommand(DB.Edit(dataChoiceList, dataUpdateList));
+            foreach (string dataUpdate in dataUpdateList)
+            {
+                foreach (string dataChoice in dataChoiceList)
+                {
+                    int i = 1;
+                    command5.Parameters.AddWithValue($"@DataUpdate{i}", dataUpdate);
+                    command5.Parameters.AddWithValue($"");
+                    i++;
+                }
+            }
+            command5.Parameters.AddWithValue("@BookName", oldBook.Name);
+            int number = await command5.ExecuteNonQueryAsync();
+            return number;
+        }
         public static async Task<int> DeleteBook(List<Book> books, int bookDeleteNumInt) 
         {
             await using var dataSource = NpgsqlDataSource.Create(DB.GetConnectionString());
             await using var command7 = dataSource.CreateCommand(DB.Delete());
             command7.Parameters.AddWithValue("@BookToDelete", books[bookDeleteNumInt].Name);
+            int number = await command7.ExecuteNonQueryAsync();
+            return number;
+        }       
+        public static async Task<int> DeleteBook(Book book) 
+        {
+            await using var dataSource = NpgsqlDataSource.Create(DB.GetConnectionString());
+            await using var command7 = dataSource.CreateCommand(DB.Delete());
+            command7.Parameters.AddWithValue("@BookToDelete", book.Name);
             int number = await command7.ExecuteNonQueryAsync();
             return number;
         }

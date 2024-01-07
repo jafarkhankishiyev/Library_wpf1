@@ -18,7 +18,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <ListBox Grid.Row="0" x:Name="bookList" Width="533" Height="Auto" HorizontalAlignment="Left" Margin="155,16,0,6" Grid.ColumnSpan="3" />
+        <ListBox Grid.Row="0" x:Name="bookList" Width="533" Height="Auto" HorizontalAlignment="Left" Margin="155,16,0,6" Grid.ColumnSpan="3" SelectionChanged="bookList_SelectionChanged" />
 
         <TextBox Grid.Row="1" x:Name="nameTextBox" Height="30" VerticalAlignment="Top" Margin="97,113,10,0" Visibility="Hidden"/>
         <TextBox Grid.Row="1" x:Name="authorTextBox" Height="30" VerticalAlignment="Top" Margin="97,76,10,0" Visibility="Hidden"/>
@@ -38,7 +38,7 @@
             </Button.Background>
         </Button>
         <Button Grid.Row="1" Grid.Column="1" x:Name="addBookButton" Content="Добавить" Margin="0,2,187,117" Click="addBookButton_Click"/>
-        <Button Grid.Row="1" Grid.Column="1" x:Name="editBookButton" Content="Редактировать" Margin="85,2,93,117" IsEnabled="False"/>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="editBookButton" Content="Редактировать" Margin="85,2,93,117" IsEnabled="False" Click="editBookButton_Click"/>
         <Button Grid.Row="1" Grid.Column="1" x:Name="deleteBookButton" Content="Удалить" Margin="178,3,266,116" Grid.ColumnSpan="2" IsEnabled="False" Click="deleteBookButton_Click"/>
 
 

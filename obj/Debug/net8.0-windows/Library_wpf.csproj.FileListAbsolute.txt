@@ -49,3 +49,4 @@ C:\Users\Aboba\Desktop\Library\Library2\Library_wpf\obj\Debug\net8.0-windows\Lib
 C:\Users\Aboba\Desktop\Library\Library2\Library_wpf\obj\Debug\net8.0-windows\Library_wpf.csproj.CopyComplete
 C:\Users\Aboba\Desktop\Library\Library2\Library_wpf\obj\Debug\net8.0-windows\Library_wpf.genruntimeconfig.cache
 C:\Users\Aboba\Desktop\Library\Library2\Library_wpf\obj\Debug\net8.0-windows\ref\Library_wpf.dll
+C:\Users\Aboba\Desktop\Library\Library2\Library_wpf\obj\Debug\net8.0-windows\Library_wpf.sourcelink.json
