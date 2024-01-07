@@ -22,7 +22,6 @@ namespace Library_wpf.DB
             _addquery = "INSERT INTO books (name, author, genre, released) VALUES (@BookName, @BookAuthor, @BookGenre, @BookYear);";
             _deletequery = "DELETE FROM books WHERE name=@BookToDelete;";
         }
-
         public async Task<List<Book>> GetBooksAsync()
         {
             List<Book> books = new List<Book>();
@@ -45,17 +44,6 @@ namespace Library_wpf.DB
             }
             return books;
         }
-        public async Task<int> AddBook(string bookName, string bookAuthor, string bookGenre, string bookYear)
-        {
-            await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
-            await using var command2 = dataSource.CreateCommand(_addquery);
-            command2.Parameters.AddWithValue("@BookName", bookName);
-            command2.Parameters.AddWithValue("@BookAuthor", bookAuthor);
-            command2.Parameters.AddWithValue("@BookGenre", bookGenre);
-            command2.Parameters.AddWithValue("@BookYear", bookYear);
-            int number = await command2.ExecuteNonQueryAsync();
-            return number;
-        }
         public async Task<int> AddBook(Book book)
         {
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
@@ -67,15 +55,6 @@ namespace Library_wpf.DB
             int number = await command2.ExecuteNonQueryAsync();
             return number;
         }
-        /*public async Task<int> EditBook(string dataChoicePrepared, string dataUpdate, string bookNameString)
-        {
-            await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
-            await using var command5 = dataSource.CreateCommand(DB.Edit(dataChoicePrepared));
-            command5.Parameters.AddWithValue("@DataUpdate", dataUpdate);
-            command5.Parameters.AddWithValue("@BookName", bookNameString);
-            int number = await command5.ExecuteNonQueryAsync();
-            return number;
-        } */
         public async Task<int> EditBook(Book oldBook, Book newBook)
         {
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);

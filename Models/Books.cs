@@ -39,6 +39,5 @@ namespace Library_wpf
         {
             return $"{this.Name} \t {this.Author} \t {this.Genre} \t {this.Release}";
         }
-
     }
 }

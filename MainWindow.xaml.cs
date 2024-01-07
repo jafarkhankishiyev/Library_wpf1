@@ -66,6 +66,7 @@ public partial class MainWindow : Window
     {
         if(bookList.SelectedItem != null)
         {
+            switchVisibilityOff();
             Book selectedItem = bookList.SelectedItem as Book;
             int deleteResult = await _bookDB.DeleteBook(selectedItem);
             deleteBookButton.IsEnabled = false;
