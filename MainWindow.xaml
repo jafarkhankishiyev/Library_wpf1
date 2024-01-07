@@ -20,10 +20,10 @@
         
         <ListBox Grid.Row="0" x:Name="bookList" Width="533" Height="Auto" HorizontalAlignment="Left" Margin="155,16,0,6" Grid.ColumnSpan="3" SelectionChanged="bookList_SelectionChanged" />
 
-        <TextBox Grid.Row="1" x:Name="nameTextBox" Height="30" VerticalAlignment="Top" Margin="97,113,10,0" Visibility="Hidden"/>
-        <TextBox Grid.Row="1" x:Name="authorTextBox" Height="30" VerticalAlignment="Top" Margin="97,76,10,0" Visibility="Hidden"/>
-        <TextBox Grid.Row="2" x:Name="genreTextBox" Height="30" VerticalAlignment="Top" Margin="97,4,10,0" Visibility="Hidden"/>
-        <TextBox Grid.Row="2" x:Name="yearTextBox" Height="30" VerticalAlignment="Top" Margin="97,39,10,0" Visibility="Hidden"/>
+        <TextBox Grid.Row="1" x:Name="nameTextBox" Height="30" VerticalAlignment="Top" Margin="97,76,10,0"/>
+        <TextBox Grid.Row="1" x:Name="authorTextBox" Height="30" VerticalAlignment="Top" Margin="97,113,10,0" />
+        <TextBox Grid.Row="2" x:Name="genreTextBox" Height="30" VerticalAlignment="Top" Margin="97,4,10,0" />
+        <TextBox Grid.Row="2" x:Name="yearTextBox" Height="30" VerticalAlignment="Top" Margin="97,39,10,0" />
 
         <TextBlock x:Name="genreTextBlock" Margin="20,7,181,109" Grid.Row="2" Visibility="Hidden">Жанр:</TextBlock>
         <TextBlock x:Name="authorTextBlock" Margin="20,115,181,0" Grid.Row="1" Visibility="Hidden">Автор:</TextBlock>
