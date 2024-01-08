@@ -24,6 +24,11 @@ public partial class MainWindow : Window
     private bool isDeleteBookButtonClicked = false;
     private bool isEditBookButtonClicked = false;
     private readonly BookDB _bookDB;
+    private bool isNameSortClicked = false;
+    private bool isAuthorSortClicked = false;
+    private bool isGenreSortClicked = false;
+    private bool isYearSortClicked = false;
+    private List<Book> booksToSort = new List<Book>();
     public MainWindow()
     {
         InitializeComponent();
@@ -42,6 +47,7 @@ public partial class MainWindow : Window
         if (isAddBookButtonClicked)
         {
             int number = await _bookDB.AddBook(book);
+            MessageBox.Show($"Добавлен {number} объект.");
             isButton1Clicked = false;
             switchVisibilityOff();
             isAddBookButtonClicked=false;
@@ -50,6 +56,7 @@ public partial class MainWindow : Window
             string dataChoicePrepared = "";
             Book oldBook = bookList.SelectedItem as Book;
             int number = await _bookDB.EditBook(oldBook, book);
+            MessageBox.Show($"Изменен {number} объект.");
             isEditBookButtonClicked = false;
             nameTextBox.Text.Remove(0);
             authorTextBox.Text.Remove(0);
@@ -62,9 +69,9 @@ public partial class MainWindow : Window
         deleteBookButton.IsEnabled = false;
         _ = ShowBooks();
     }
-    public async void deleteBookButton_Click(object sender, RoutedEventArgs e)
+    private async void deleteBookButton_Click(object sender, RoutedEventArgs e)
     {
-        if(bookList.SelectedItem != null)
+        if (bookList.SelectedItem != null)
         {
             switchVisibilityOff();
             Book selectedItem = bookList.SelectedItem as Book;
@@ -72,13 +79,14 @@ public partial class MainWindow : Window
             deleteBookButton.IsEnabled = false;
             editBookButton.IsEnabled = false;
             _ = ShowBooks();
+            MessageBox.Show($"Удален {deleteResult} объект.");
         }
     }
-    public async Task ShowBooks()
+    private async Task ShowBooks()
     {
-        List<Book> books = await _bookDB.GetBooksAsync();
-        bookList.ItemsSource = new List<Book>();
-        bookList.ItemsSource = books;
+            List<Book> books = await _bookDB.GetBooksAsync();
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = books;
     }
     private void addBookButton_Click(object sender, RoutedEventArgs e)
     {
@@ -133,5 +141,81 @@ public partial class MainWindow : Window
         authorTextBox.Text = oldBook.Author;
         genreTextBox.Text = oldBook.Genre;
         yearTextBox.Text = oldBook.Release;
+    }
+    private void nameColumnHeader_Click(object sender, RoutedEventArgs e)
+    {
+        if (isNameSortClicked) 
+        {
+            isNameSortClicked = false;
+            _ = ShowBooks();
+        } else
+        {
+            isAuthorSortClicked = false;
+            isGenreSortClicked = false;
+            isYearSortClicked = false;
+            isNameSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            booksToSort.Sort((x, y) => string.Compare(x.Name, y.Name));
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
+    }
+    private void authorColumnHeader_Click(object sender, RoutedEventArgs e)
+    {
+        if (isAuthorSortClicked)
+        {
+            isAuthorSortClicked = false;
+            _ = ShowBooks();
+        }
+        else
+        {
+            isNameSortClicked = false;
+            isGenreSortClicked = false;
+            isYearSortClicked = false;
+            isAuthorSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            booksToSort.Sort((x, y) => string.Compare(x.Author, y.Author));
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
+    }
+    private void genreColumnHeader_Click( object sender, RoutedEventArgs e )
+    {
+        if (isGenreSortClicked)
+        {
+            isGenreSortClicked = false;
+            _ = ShowBooks();
+        }
+        else
+        {
+            isNameSortClicked = false;
+            isAuthorSortClicked = false;
+            isYearSortClicked = false;
+            isGenreSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            booksToSort.Sort((x, y) => string.Compare(x.Genre, y.Genre));
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
+    }
+    private void yearColumnHeader_Click(object sender, RoutedEventArgs e ) 
+    {
+        if (isYearSortClicked)
+        {
+            isYearSortClicked = false;
+            _ = ShowBooks();
+        }
+        else
+        {
+            isNameSortClicked = false;
+            isAuthorSortClicked = false;
+            isGenreSortClicked = false;
+            isYearSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            //booksToSort.Sort((x, y) => string.Compare(x.Release, y.Release));
+            booksToSort = booksToSort.OrderByDescending(x => x.Release).ToList();
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
     }
 }

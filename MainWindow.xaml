@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Library_wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Library" Height="450" Width="800">
     <Grid ShowGridLines ="False">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -17,37 +17,78 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
         <ListView Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionChanged="bookList_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="120"/>
-                    <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author}" Width="120"/>
-                    <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}" Width="120"/>
-                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Release}" Width="120"/>
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="120">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <EventSetter Event="Click" Handler="nameColumnHeader_Click"/>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author}" Width="120">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <EventSetter Event="Click" Handler="authorColumnHeader_Click"/>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}" Width="120">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <EventSetter Event="Click" Handler="genreColumnHeader_Click"/>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Release}" Width="120">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <EventSetter Event="Click" Handler="yearColumnHeader_Click"/>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-
-        <TextBox Grid.Row="1" x:Name="nameTextBox" Height="30" VerticalAlignment="Top" Margin="97,68,10,0"/>
-        <TextBox Grid.Row="1" x:Name="authorTextBox" Height="30" VerticalAlignment="Top" Margin="97,104,10,0" />
-        <TextBox Grid.Row="1" x:Name="genreTextBox" Height="30" VerticalAlignment="Top" Margin="91,68,15,0" Grid.Column="1" />
-        <TextBox Grid.Row="1" x:Name="yearTextBox" Height="30" VerticalAlignment="Top" Margin="91,103,15,0" Grid.Column="1" />
-
-        <TextBlock x:Name="genreTextBlock" Margin="14,71,186,44" Grid.Row="1" Grid.Column="1">Жанр:</TextBlock>
-        <TextBlock x:Name="authorTextBlock" Margin="20,106,181,9" Grid.Row="1">Автор:</TextBlock>
-        <TextBlock x:Name="nameTextBlock" Margin="20,72,181,43" Grid.Row="1">Название:</TextBlock>
-        <TextBlock x:Name="yearTextBlock" Margin="14,104,186,11" Grid.Row="1" Grid.Column="1">Год:</TextBlock>
-
-        <Button Grid.Row="2" Grid.Column ="1" x:Name ="Button1" Content="Отправить" FontSize="13" Width="80" Height="30"
-		Click="Button_Click">
+        <Button Grid.Row="3" Grid.Column ="1" x:Name ="Button1" Content="Отправить" FontSize="13" Width="80" Height="30"
+		    Click="Button_Click">
             <Button.Background>
                 <SolidColorBrush Opacity="0.5" Color="Blue"/>
             </Button.Background>
         </Button>
-        <Button Grid.Row="1" Grid.Column="1" x:Name="addBookButton" Content="Добавить" FontSize="13" Width="80" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Click="addBookButton_Click"/>
-        <Button Grid.Row="1" Grid.Column="1" x:Name="editBookButton" Content="Редактировать" FontSize="13" Width="80" Height="30" VerticalAlignment="Top" HorizontalAlignment="Center" IsEnabled="False" Click="editBookButton_Click"/>
-        <Button Grid.Row="1" Grid.Column="1" x:Name="deleteBookButton" Content="Удалить" FontSize="13" Width="80" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" IsEnabled="False" Click="deleteBookButton_Click"/>
+        <Grid Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Column="1" Grid.Row="0" x:Name="nameTextBox" Height="30" VerticalAlignment="Center" />
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="authorTextBox" Height="30" VerticalAlignment="Center" />
+            <TextBox Grid.Column="1" Grid.Row="2" x:Name="genreTextBox" Height="30" VerticalAlignment="Center"   />
+            <TextBox Grid.Column="1" Grid.Row="3" x:Name="yearTextBox" Height="30" VerticalAlignment="Center"   />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right">Жанр:</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Автор:</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="nameTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Название:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0" x:Name="yearTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Год:</TextBlock>
 
 
+            <Button Grid.Column="2" x:Name="addBookButton" Content="Добавить" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Click="addBookButton_Click"/>
+            <Button Grid.Column="2" Grid.ColumnSpan="2" x:Name="editBookButton" Content="Редактировать" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="False" Click="editBookButton_Click"/>
+            <Button Grid.Column="3" x:Name="deleteBookButton" Content="Удалить" FontSize="12" Width="80" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False" Click="deleteBookButton_Click"/>
+
+        </Grid>
     </Grid>
 </Window>
