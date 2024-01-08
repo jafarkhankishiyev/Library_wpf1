@@ -1,22 +1,35 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic;
-using Npgsql;
-
 namespace Library_wpf
 {
     public class Book 
     {
+
         //fields
-        public string Name { get; set; }
-        public string Author { get; set; }
-        public string Genre { get; set; }
-        public string Release { get; set; }
+        private string name;
+        private string author;
+        private string genre;
+        private string release;
+
+        //properties
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        } 
+        public string Author
+        {
+            get { return author; }
+            set { author = value; }
+        }
+        public string Genre 
+        { 
+            get { return genre; }
+            set { genre = value; }
+        }
+        public string Release
+        { 
+            get { return release; }
+            set { release = value; }
+        }
 
         //constructors   
         public Book()

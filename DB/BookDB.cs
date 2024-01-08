@@ -13,8 +13,6 @@ namespace Library_wpf.DB
         private readonly string _readquery;
         private readonly string _addquery;
         private readonly string _deletequery;
-
-
         public BookDB()
         {
             _connectionstring = "Server=localhost;User Id = postgres; Password = 123; Database=library";
