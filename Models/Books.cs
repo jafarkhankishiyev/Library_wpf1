@@ -7,7 +7,7 @@ namespace Library_wpf
         private string name;
         private string author;
         private string genre;
-        private string release;
+        private int release;
 
         //properties
         public string Name
@@ -25,7 +25,7 @@ namespace Library_wpf
             get { return genre; }
             set { genre = value; }
         }
-        public string Release
+        public int Release
         { 
             get { return release; }
             set { release = value; }
@@ -37,9 +37,9 @@ namespace Library_wpf
             Name = "Unknown";
             Author = "Unkwnown";
             Genre = "Unknown";
-            Release = "Unknown";
+            Release = 0;
         }
-        public Book(string name, string author, string genre, string release) 
+        public Book(string name, string author, string genre, int release) 
         {
             Name = name;
             Author = author;

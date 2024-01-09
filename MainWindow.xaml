@@ -11,6 +11,8 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -18,10 +20,18 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <ListView Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionChanged="bookList_SelectionChanged">
+        <ListView Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionChanged="bookList_SelectionChanged" SelectionMode="Multiple">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="120">
+                    <GridViewColumn Width="30">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" 
+                                  VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="200">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <EventSetter Event="Click" Handler="nameColumnHeader_Click"/>
@@ -52,13 +62,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Grid.Row="3" Grid.Column ="1" x:Name ="Button1" Content="Отправить" FontSize="13" Width="80" Height="30"
-		    Click="Button_Click">
-            <Button.Background>
-                <SolidColorBrush Opacity="0.5" Color="Blue"/>
-            </Button.Background>
-        </Button>
-        <Grid Grid.Row="1" Grid.ColumnSpan="3">
+        <Button Grid.Column="4" x:Name="addBookButton" Content="Add" FontSize="12" Width="85" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Click="addBookButton_Click"  />
+        <Button Grid.Column="2" x:Name="editBookButton" Content="Edit" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False" Click="editBookButton_Click"/>
+        <Button Grid.Column="4" x:Name="deleteBookButton" Content="Delete" FontSize="12" Width="85" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsEnabled="False" Click="deleteBookButton_Click" />
+
+        <Grid Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="dynamicVisGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -72,22 +80,38 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Column="1" Grid.Row="0" x:Name="nameTextBox" Height="30" VerticalAlignment="Center" />
-            <TextBox Grid.Column="1" Grid.Row="1" x:Name="authorTextBox" Height="30" VerticalAlignment="Center" />
-            <TextBox Grid.Column="1" Grid.Row="2" x:Name="genreTextBox" Height="30" VerticalAlignment="Center"   />
-            <TextBox Grid.Column="1" Grid.Row="3" x:Name="yearTextBox" Height="30" VerticalAlignment="Center"   />
+            <TextBox Grid.Column="2" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" />
+            <TextBox Grid.Column="2" Grid.Row="3" x:Name="authorTextBox" Height="Auto" VerticalAlignment="Center" />
+            <TextBox Grid.Column="4" Grid.Row="1" x:Name="genreTextBox" Height="Auto" VerticalAlignment="Center"  />
+            <TextBox Grid.Column="4" Grid.Row="3" x:Name="yearTextBox" Height="Auto" VerticalAlignment="Center"  />
 
-            <TextBlock Grid.Row="2" Grid.Column="0" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right">Жанр:</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Автор:</TextBlock>
-            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="nameTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Название:</TextBlock>
-            <TextBlock Grid.Row="3" Grid.Column="0" x:Name="yearTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Год:</TextBlock>
+            <Button Grid.Row="10" Grid.RowSpan="2" Grid.Column ="2" Grid.ColumnSpan="2" x:Name ="Button1" Content="Save" FontSize="13" Width="80" Height="30"
+		    Click="Button_Click">
+                <Button.Background>
+                    <SolidColorBrush Opacity="0.5" Color="Blue"/>
+                </Button.Background>
+            </Button>
 
+            <TextBlock Grid.Row="1" Grid.Column="3" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="91,0,0,0">Genre:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Author:</TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="1" x:Name="nameTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Title:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="3" x:Name="yearTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right" >Year:</TextBlock>
 
-            <Button Grid.Column="2" x:Name="addBookButton" Content="Добавить" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Click="addBookButton_Click"/>
-            <Button Grid.Column="2" Grid.ColumnSpan="2" x:Name="editBookButton" Content="Редактировать" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="False" Click="editBookButton_Click"/>
-            <Button Grid.Column="3" x:Name="deleteBookButton" Content="Удалить" FontSize="12" Width="80" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False" Click="deleteBookButton_Click"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="nameWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" x:Name="authorWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12"/>
+            <TextBlock Grid.Row="0" Grid.Column="4" x:Name="genreWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12"/>
+            <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" x:Name="yearWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12"/>
 
         </Grid>
     </Grid>

@@ -4,21 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace Library_wpf.DB
 {
-    public class BookDB
+    public class BookDB : DB
     {
-        private readonly string _connectionstring;
+        private readonly string _table = "books";
+        private readonly string _columns = "name, author, genre, released";
+        private readonly string _insertParameters = "@BookName, @BookAuthor, @BookGenre, @BookYear";
+        private readonly string _deleteColAndParam = "name=@BookToDelete";
         private readonly string _readquery;
         private readonly string _addquery;
         private readonly string _deletequery;
+
         public BookDB()
         {
-            _connectionstring = "Server=localhost;User Id = postgres; Password = 123; Database=library";
-            _readquery = "SELECT * FROM books;";
-            _addquery = "INSERT INTO books (name, author, genre, released) VALUES (@BookName, @BookAuthor, @BookGenre, @BookYear);";
-            _deletequery = "DELETE FROM books WHERE name=@BookToDelete;";
+            (_readquery, _addquery, _deletequery) = TailorDB(_table, _columns, _insertParameters, _deleteColAndParam);
         }
         public async Task<List<Book>> GetBooksAsync()
         {
@@ -35,7 +37,7 @@ namespace Library_wpf.DB
                     book.Name = reader.GetString(0);
                     book.Author = reader.GetString(1);
                     book.Genre = reader.GetString(2);
-                    book.Release = reader.GetString(3);
+                    book.Release = reader.GetInt32(3);
                     books.Add(book);
                     i++;
                 }
@@ -76,42 +78,50 @@ namespace Library_wpf.DB
             if (oldBook.Release != newBook.Release)
             {
                 dataChoiceList.Add("released");
-                dataUpdateList.Add(newBook.Release);
+                dataUpdateList.Add(newBook.Release.ToString());
             }
             string editQuery = "";
             string dataChoice = "";
-            if (dataChoiceList.Count > 1)
+            if (dataChoiceList.Count != 0)
             {
-                editQuery = "UPDATE books SET ";
-                for(int i = 0; i < dataChoiceList.Count; i++)
+                if (dataChoiceList.Count > 1)
                 {
-                    editQuery += $"{dataChoiceList[i]}=@DataUpdate{i}";
-                    if (dataChoiceList.Count - i > 1)
+                    editQuery = "UPDATE books SET ";
+                    for (int i = 0; i < dataChoiceList.Count; i++)
                     {
-                        editQuery += ", ";
+                        editQuery += $"{dataChoiceList[i]}=@DataUpdate{i}";
+                        if (dataChoiceList.Count - i > 1)
+                        {
+                            editQuery += ", ";
+                        }
+                    }
+                    editQuery += " WHERE name=@BookName";
+                }
+                else
+                {
+                    dataChoice = dataChoiceList[0];
+                    editQuery = $"UPDATE books SET {dataChoice}=@DataUpdate WHERE name=@BookName";
+                }
+                await using var command5 = dataSource.CreateCommand(editQuery);
+                if (dataChoiceList.Count <= 1)
+                {
+                    command5.Parameters.AddWithValue("@DataUpdate", dataUpdateList[0]);
+                }
+                else
+                {
+                    for (int i = 0; i < dataChoiceList.Count; i++)
+                    {
+                            command5.Parameters.AddWithValue($"@DataUpdate{i}", dataUpdateList[i]);
                     }
                 }
-                editQuery += " WHERE name=@BookName";
+                command5.Parameters.AddWithValue("@BookName", oldBook.Name);
+                int number = await command5.ExecuteNonQueryAsync();
+                return number;
             }
             else
             {
-                dataChoice = dataChoiceList[0];
-                editQuery = $"UPDATE books SET {dataChoice}=@DataUpdate WHERE name=@BookName";
+                return 0;
             }
-            await using var command5 = dataSource.CreateCommand(editQuery);
-            if(dataChoiceList.Count <= 1)
-            {
-                command5.Parameters.AddWithValue("@DataUpdate", dataUpdateList[0]);
-            } else
-            {
-                for (int i = 0; i < dataChoiceList.Count;i++)
-                {
-                    command5.Parameters.AddWithValue($"@DataUpdate{i}", dataUpdateList[i]);
-                }
-            }
-            command5.Parameters.AddWithValue("@BookName", oldBook.Name);
-            int number = await command5.ExecuteNonQueryAsync();
-            return number;
         }
         public async Task<int> DeleteBook(List<Book> books, int bookDeleteNumInt)
         {
