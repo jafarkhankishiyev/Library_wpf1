@@ -38,9 +38,9 @@ namespace Library_wpf.UI
                 if (isAddBookButtonClicked)
                 {
                     int number = await _mainwindow._bookDB.AddBook(book);
-                    MessageBox.Show($"Добавлен {number} объект.");
+                    MessageBox.Show($"Added {number} object.");
                     isButton1Clicked = false;
-                    _mainwindow.switchVisibilityOff();
+                    _mainwindow.SwitchVisibilityOff();
                     isAddBookButtonClicked = false;
                 }
                 else if (isEditBookButtonClicked)
@@ -48,13 +48,13 @@ namespace Library_wpf.UI
                     string dataChoicePrepared = "";
                     Book oldBook = _mainwindow.bookList.SelectedItem as Book;
                     int number = await _mainwindow._bookDB.EditBook(oldBook, book);
-                    MessageBox.Show($"Изменен {number} объект.");
+                    MessageBox.Show($"Modified {number} object.");
                     isEditBookButtonClicked = false;
                     _mainwindow.nameTextBox.Text.Remove(0);
                     _mainwindow.authorTextBox.Text.Remove(0);
                     _mainwindow.genreTextBox.Text.Remove(0);
                     _mainwindow.yearTextBox.Text.Remove(0);
-                    _mainwindow.switchVisibilityOff();
+                    _mainwindow.SwitchVisibilityOff();
                     _mainwindow.bookList.SelectionMode = SelectionMode.Multiple;
                 }
                 isButton1Clicked = false;
@@ -66,36 +66,36 @@ namespace Library_wpf.UI
                 isButton1Clicked = false;
             }
         }
-        public async void deleteBookButton_Click(object sender, RoutedEventArgs e)
+        public async void DeleteBookButton_Click(object sender, RoutedEventArgs e)
         {
             if (_mainwindow.bookList.SelectedItem != null)
             {
-                _mainwindow.switchVisibilityOff();
+                _mainwindow.SwitchVisibilityOff();
                 Book selectedItem = _mainwindow.bookList.SelectedItem as Book;
                 int deleteResult = await _mainwindow._bookDB.DeleteBook(selectedItem);
                 _mainwindow.deleteBookButton.IsEnabled = false;
                 _mainwindow.editBookButton.IsEnabled = false;
                 _ = _mainwindow.ShowBooks();
-                MessageBox.Show($"Удален {deleteResult} объект.");
+                MessageBox.Show($"Deleted {deleteResult} object(s).");
             }
         }
-        public void addBookButton_Click(object sender, RoutedEventArgs e)
+        public void AddBookButton_Click(object sender, RoutedEventArgs e)
         {
             _mainwindow.nameTextBox.Text = _mainwindow.nameTextBox.Text.Remove(0);
             _mainwindow.authorTextBox.Text = _mainwindow.authorTextBox.Text.Remove(0);
             _mainwindow.genreTextBox.Text = _mainwindow.genreTextBox.Text.Remove(0);
             _mainwindow.yearTextBox.Text = _mainwindow.yearTextBox.Text.Remove(0);
-            _mainwindow.switchVisibilityOn();
+            _mainwindow.SwitchVisibilityOn();
             _mainwindow.nameTextBox.Focus();
             isAddBookButtonClicked = true;
             isEditBookButtonClicked = false;
         }
-        public void editBookButton_Click(object sender, RoutedEventArgs e)
+        public void EditBookButton_Click(object sender, RoutedEventArgs e)
         {
             isEditBookButtonClicked = true;
             _mainwindow.bookList.SelectionMode = SelectionMode.Single;
             isAddBookButtonClicked = false;
-            _mainwindow.switchVisibilityOn();
+            _mainwindow.SwitchVisibilityOn();
             Book oldBook = _mainwindow.bookList.SelectedItem as Book;
             _mainwindow.nameTextBox.Text = oldBook.Name;
             _mainwindow.authorTextBox.Text = oldBook.Author;

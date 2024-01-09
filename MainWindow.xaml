@@ -20,7 +20,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <ListView Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionChanged="bookList_SelectionChanged" SelectionMode="Multiple">
+        <ListView Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionChanged="BookList_SelectionChanged" SelectionMode="Multiple">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="30">
@@ -34,37 +34,37 @@
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="200">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="nameColumnHeader_Click"/>
+                                <EventSetter Event="Click" Handler="NameColumnHeader_Click"/>
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
                     <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author}" Width="120">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="authorColumnHeader_Click"/>
+                                <EventSetter Event="Click" Handler="AuthorColumnHeader_Click"/>
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
                     <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}" Width="120">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="genreColumnHeader_Click"/>
+                                <EventSetter Event="Click" Handler="GenreColumnHeader_Click"/>
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
                     <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Release}" Width="120">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="yearColumnHeader_Click"/>
+                                <EventSetter Event="Click" Handler="YearColumnHeader_Click"/>
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Grid.Column="4" x:Name="addBookButton" Content="Add" FontSize="12" Width="85" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Click="addBookButton_Click"  />
-        <Button Grid.Column="2" x:Name="editBookButton" Content="Edit" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False" Click="editBookButton_Click"/>
-        <Button Grid.Column="4" x:Name="deleteBookButton" Content="Delete" FontSize="12" Width="85" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsEnabled="False" Click="deleteBookButton_Click" />
+        <Button Grid.Column="4" x:Name="addBookButton" Content="Add" FontSize="12" Width="85" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Click="AddBookButton_Click"  />
+        <Button Grid.Column="2" x:Name="editBookButton" Content="Edit" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False" Click="EditBookButton_Click"/>
+        <Button Grid.Column="4" x:Name="deleteBookButton" Content="Delete" FontSize="12" Width="85" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsEnabled="False" Click="DeleteBookButton_Click" />
 
         <Grid Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="dynamicVisGrid">
             <Grid.ColumnDefinitions>

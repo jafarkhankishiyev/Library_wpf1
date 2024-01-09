@@ -14,11 +14,11 @@ namespace Library_wpf.UI
         { 
 
         }
-        public void switchVisibilityOn()
+        public void SwitchVisibilityOn()
         {
             _mainwindow.dynamicVisGrid.Visibility = Visibility.Visible;
         }
-        public void switchVisibilityOff()
+        public void SwitchVisibilityOff()
         {
             _mainwindow.dynamicVisGrid.Visibility = Visibility.Hidden;
         }

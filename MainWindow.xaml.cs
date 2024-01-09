@@ -33,7 +33,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         _bookDB = new BookDB();
         _ = ShowBooks();
-        switchVisibilityOff();
+        SwitchVisibilityOff();
     }
     public async Task ShowBooks()
     {
@@ -43,17 +43,17 @@ public partial class MainWindow : Window
     }
 
     //visibility
-    public void switchVisibilityOn() 
+    public void SwitchVisibilityOn() 
     {
-        _visibility.switchVisibilityOn();
+        _visibility.SwitchVisibilityOn();
     }
-    public void switchVisibilityOff()
+    public void SwitchVisibilityOff()
     {
-        _visibility.switchVisibilityOff();
+        _visibility.SwitchVisibilityOff();
     }
 
     //selection
-    private void bookList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void BookList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (bookList.SelectedItem != null)
         {
@@ -62,34 +62,34 @@ public partial class MainWindow : Window
         }
     }
     //sort clicks
-    private void nameColumnHeader_Click(object sender, RoutedEventArgs e)
+    private void NameColumnHeader_Click(object sender, RoutedEventArgs e)
     {
         _sort.nameColumnHeader_Click(sender, e);
     }
-    private void authorColumnHeader_Click(object sender, RoutedEventArgs e)
+    private void AuthorColumnHeader_Click(object sender, RoutedEventArgs e)
     {
         _sort.authorColumnHeader_Click(sender, e);
     }
-    private void genreColumnHeader_Click(object sender, RoutedEventArgs e)
+    private void GenreColumnHeader_Click(object sender, RoutedEventArgs e)
     {
         _sort.genreColumnHeader_Click(sender, e);
     }
-    private void yearColumnHeader_Click(object sender, RoutedEventArgs e)
+    private void YearColumnHeader_Click(object sender, RoutedEventArgs e)
     {
         _sort.yearColumnHeader_Click(sender, e);
     }
     //button methods
-    private void addBookButton_Click(object sender, RoutedEventArgs e)
+    private void AddBookButton_Click(object sender, RoutedEventArgs e)
     {
-        _buttons.addBookButton_Click(sender, e);
+        _buttons.AddBookButton_Click(sender, e);
     }
-    private void deleteBookButton_Click( object sender, RoutedEventArgs e)
+    private void DeleteBookButton_Click( object sender, RoutedEventArgs e)
     {
-        _buttons.deleteBookButton_Click(sender, e);
+        _buttons.DeleteBookButton_Click(sender, e);
     }
-    private void editBookButton_Click(object sender, RoutedEventArgs e)
+    private void EditBookButton_Click(object sender, RoutedEventArgs e)
     {
-        _buttons.editBookButton_Click(sender, e);
+        _buttons.EditBookButton_Click(sender, e);
     }
     private void Button_Click(object sender, RoutedEventArgs e)
     {
