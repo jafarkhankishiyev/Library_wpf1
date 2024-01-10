@@ -55,11 +55,24 @@ public partial class MainWindow : Window
     //selection
     private void BookList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (bookList.SelectedItem != null)
+        if (bookList.SelectedItems.Count == 1)
         {
+            addBookButton.IsEnabled = false;
             deleteBookButton.IsEnabled = true;
             editBookButton.IsEnabled = true;
+        } else if (bookList.SelectedItems.Count > 1)
+        {
+            addBookButton.IsEnabled = false;
+            deleteBookButton.IsEnabled = true;
+            editBookButton.IsEnabled = false;
+        } 
+        else
+        {
+            addBookButton.IsEnabled = true;
+            deleteBookButton.IsEnabled = false; 
+            editBookButton.IsEnabled = false;
         }
+        _visibility.SwitchVisibilityOff();
     }
     //sort clicks
     private void NameColumnHeader_Click(object sender, RoutedEventArgs e)

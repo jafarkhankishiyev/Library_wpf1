@@ -14,9 +14,9 @@ namespace Library_wpf.UI
         public int Validate(Book book)
         {
             _mainwindow.nameWarningTextBlock.Text = _mainwindow.nameWarningTextBlock.Text.Remove(0);
-            _mainwindow.nameWarningTextBlock.Text = _mainwindow.authorWarningTextBlock.Text.Remove(0);
-            _mainwindow.nameWarningTextBlock.Text = _mainwindow.genreWarningTextBlock.Text.Remove(0);
-            _mainwindow.nameWarningTextBlock.Text = _mainwindow.yearWarningTextBlock.Text.Remove(0);
+            _mainwindow.authorWarningTextBlock.Text = _mainwindow.authorWarningTextBlock.Text.Remove(0);
+            _mainwindow.genreWarningTextBlock.Text = _mainwindow.genreWarningTextBlock.Text.Remove(0);
+            _mainwindow.yearWarningTextBlock.Text = _mainwindow.yearWarningTextBlock.Text.Remove(0);
             int result;
             if (string.IsNullOrWhiteSpace(book.Name))
             {
@@ -33,7 +33,7 @@ namespace Library_wpf.UI
                 _mainwindow.genreWarningTextBlock.Text = "*fill the genre field";
                 return 4;
             }
-            else if (book.Release == 0 || book.Release == null)
+            else if (book.Release == 0)
             {
                 _mainwindow.yearWarningTextBlock.Text = "*fill the year field with YYYY (e.g. 1984)";
                 return 5;

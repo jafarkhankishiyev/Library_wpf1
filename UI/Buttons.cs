@@ -31,7 +31,16 @@ namespace Library_wpf.UI
             book.Name = _mainwindow.nameTextBox.Text;
             book.Author = _mainwindow.authorTextBox.Text;
             book.Genre = _mainwindow.genreTextBox.Text;
-            book.Release = Int32.Parse(_mainwindow.yearTextBox.Text);
+            int result;
+            bool releaseCheck = Int32.TryParse(_mainwindow.yearTextBox.Text, out result);
+            if (releaseCheck)
+            {
+                book.Release = result;
+            } 
+            else
+            {
+                book.Release = 0;
+            }
             int validateNum = _warningmanager.Validate(book);
             if (validateNum == 1)
             {
@@ -50,17 +59,13 @@ namespace Library_wpf.UI
                     int number = await _mainwindow._bookDB.EditBook(oldBook, book);
                     MessageBox.Show($"Modified {number} object.");
                     isEditBookButtonClicked = false;
-                    _mainwindow.nameTextBox.Text.Remove(0);
-                    _mainwindow.authorTextBox.Text.Remove(0);
-                    _mainwindow.genreTextBox.Text.Remove(0);
-                    _mainwindow.yearTextBox.Text.Remove(0);
                     _mainwindow.SwitchVisibilityOff();
-                    _mainwindow.bookList.SelectionMode = SelectionMode.Multiple;
                 }
                 isButton1Clicked = false;
                 _mainwindow.editBookButton.IsEnabled = false;
                 _mainwindow.deleteBookButton.IsEnabled = false;
                 _ = _mainwindow.ShowBooks();
+                _mainwindow.Button1.IsEnabled = false;
             } else
             {
                 isButton1Clicked = false;
@@ -89,11 +94,11 @@ namespace Library_wpf.UI
             _mainwindow.nameTextBox.Focus();
             isAddBookButtonClicked = true;
             isEditBookButtonClicked = false;
+            _mainwindow.Button1.IsEnabled = true;
         }
         public void EditBookButton_Click(object sender, RoutedEventArgs e)
         {
             isEditBookButtonClicked = true;
-            _mainwindow.bookList.SelectionMode = SelectionMode.Single;
             isAddBookButtonClicked = false;
             _mainwindow.SwitchVisibilityOn();
             Book oldBook = _mainwindow.bookList.SelectedItem as Book;
@@ -101,6 +106,7 @@ namespace Library_wpf.UI
             _mainwindow.authorTextBox.Text = oldBook.Author;
             _mainwindow.genreTextBox.Text = oldBook.Genre;
             _mainwindow.yearTextBox.Text = oldBook.Release.ToString();
+            _mainwindow.Button1.IsEnabled = true;
         }
     }
 }

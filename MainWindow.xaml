@@ -20,7 +20,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <ListView Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionChanged="BookList_SelectionChanged" SelectionMode="Multiple">
+        <ListView Grid.Row="1" Grid.RowSpan="3" Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionChanged="BookList_SelectionChanged" SelectionMode="Multiple">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="30">
@@ -31,7 +31,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="200">
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="150">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <EventSetter Event="Click" Handler="NameColumnHeader_Click"/>
@@ -65,8 +65,13 @@
         <Button Grid.Column="4" x:Name="addBookButton" Content="Add" FontSize="12" Width="85" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Click="AddBookButton_Click"  />
         <Button Grid.Column="2" x:Name="editBookButton" Content="Edit" FontSize="12" Width="85" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False" Click="EditBookButton_Click"/>
         <Button Grid.Column="4" x:Name="deleteBookButton" Content="Delete" FontSize="12" Width="85" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" IsEnabled="False" Click="DeleteBookButton_Click" />
-
-        <Grid Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" x:Name="dynamicVisGrid">
+        <Button Grid.Row="1" Grid.RowSpan="1" Grid.Column ="2" x:Name ="Button1" Content="Save" FontSize="13" Width="85" Height="30"
+		    Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,11,0,0" IsEnabled="False">
+            <Button.Background>
+                <SolidColorBrush Opacity="0.5" Color="Blue"/>
+            </Button.Background>
+        </Button>
+        <Grid Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="3" x:Name="dynamicVisGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -83,12 +88,6 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
             <TextBox Grid.Column="2" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" />
@@ -96,12 +95,7 @@
             <TextBox Grid.Column="4" Grid.Row="1" x:Name="genreTextBox" Height="Auto" VerticalAlignment="Center"  />
             <TextBox Grid.Column="4" Grid.Row="3" x:Name="yearTextBox" Height="Auto" VerticalAlignment="Center"  />
 
-            <Button Grid.Row="10" Grid.RowSpan="2" Grid.Column ="2" Grid.ColumnSpan="2" x:Name ="Button1" Content="Save" FontSize="13" Width="80" Height="30"
-		    Click="Button_Click">
-                <Button.Background>
-                    <SolidColorBrush Opacity="0.5" Color="Blue"/>
-                </Button.Background>
-            </Button>
+
 
             <TextBlock Grid.Row="1" Grid.Column="3" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="91,0,0,0">Genre:</TextBlock>
             <TextBlock Grid.Row="3" Grid.Column="1" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Author:</TextBlock>
