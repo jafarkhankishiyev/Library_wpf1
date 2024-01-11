@@ -274,7 +274,6 @@ namespace Library_wpf.ViewModelNameSpace
             List<Book> books = await _bookDB.GetBooksAsync();
             BookListSource = books;
         }
-
         public void ClearText()
         {
             NameWarningText = string.Empty;
