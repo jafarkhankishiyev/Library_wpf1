@@ -66,7 +66,6 @@ public partial class MainWindow : Window
             deleteBookButton.IsEnabled = false;
             editBookButton.IsEnabled = false;
         }
-//        _visibility.SwitchVisibilityOff();
     }
 
 
