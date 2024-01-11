@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using NpgsqlTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,19 +100,36 @@ namespace Library_wpf.DB
                 }
                 else
                 {
+
                     dataChoice = dataChoiceList[0];
                     editQuery = $"UPDATE books SET {dataChoice}=@DataUpdate WHERE name=@BookName";
                 }
                 await using var command5 = dataSource.CreateCommand(editQuery);
                 if (dataChoiceList.Count <= 1)
                 {
-                    command5.Parameters.AddWithValue("@DataUpdate", dataUpdateList[0]);
+                    if (dataChoiceList[0] != "released")
+                    {
+                        command5.Parameters.AddWithValue("@DataUpdate", dataUpdateList[0]);
+                    } 
+                    else
+                    {
+                        command5.Parameters.AddWithValue("@DataUpdate", Int32.Parse(dataUpdateList[0]));
+                    }
                 }
                 else
                 {
                     for (int i = 0; i < dataChoiceList.Count; i++)
                     {
+                        if(dataChoiceList[i] != "released")
+                        {
                             command5.Parameters.AddWithValue($"@DataUpdate{i}", dataUpdateList[i]);
+                        } 
+                        else
+                        {
+                            command5.Parameters.AddWithValue($"DataUpdate{i}", Int32.Parse(dataUpdateList[i]));
+                        }
+
+                            
                     }
                 }
                 command5.Parameters.AddWithValue("@BookName", oldBook.Name);

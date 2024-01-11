@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Npgsql;
-using Library_wpf.DB;
+using Library_wpf.ViewModelNameSpace;
 using Library_wpf.UI;
 
 namespace Library_wpf;
@@ -20,39 +20,32 @@ namespace Library_wpf;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public readonly BookDB _bookDB;
-    private ButtonsUI _buttons;
-    private SortUI _sort;
-    private VisibilityUI _visibility;
-
+    //    private SortUI _sort;
+    /*
+    public bool isNameSortClicked = false;
+    public bool isAuthorSortClicked = false;
+    public bool isGenreSortClicked = false;
+    public bool isYearSortClicked = false;
+    private List<Book> booksToSort = new List<Book>();
+    */
     public MainWindow()
     {
-        _buttons = new ButtonsUI(this);
-        _sort = new SortUI(this);
-        _visibility = new VisibilityUI(this);
+        //_sort = new SortUI(this);
         InitializeComponent();
-        _bookDB = new BookDB();
-        _ = ShowBooks();
-        SwitchVisibilityOff();
+        DataContext = new LibraryViewModel();
     }
-    public async Task ShowBooks()
+    private void NameColumnHeader_Click(object sender, RoutedEventArgs e)
     {
-        List<Book> books = await _bookDB.GetBooksAsync();
-        bookList.ItemsSource = new List<Book>();
-        bookList.ItemsSource = books;
     }
-
-    //visibility
-    public void SwitchVisibilityOn() 
+    private void AuthorColumnHeader_Click(object sender, RoutedEventArgs e)
     {
-        _visibility.SwitchVisibilityOn();
     }
-    public void SwitchVisibilityOff()
+    private void GenreColumnHeader_Click(object sender, RoutedEventArgs e)
     {
-        _visibility.SwitchVisibilityOff();
     }
-
-    //selection
+    private void YearColumnHeader_Click(object sender, RoutedEventArgs e)
+    {
+    }
     private void BookList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (bookList.SelectedItems.Count == 1)
@@ -60,52 +53,100 @@ public partial class MainWindow : Window
             addBookButton.IsEnabled = false;
             deleteBookButton.IsEnabled = true;
             editBookButton.IsEnabled = true;
-        } else if (bookList.SelectedItems.Count > 1)
+        }
+        else if (bookList.SelectedItems.Count > 1)
         {
             addBookButton.IsEnabled = false;
             deleteBookButton.IsEnabled = true;
             editBookButton.IsEnabled = false;
-        } 
+        }
         else
         {
             addBookButton.IsEnabled = true;
-            deleteBookButton.IsEnabled = false; 
+            deleteBookButton.IsEnabled = false;
             editBookButton.IsEnabled = false;
         }
-        _visibility.SwitchVisibilityOff();
+//        _visibility.SwitchVisibilityOff();
     }
-    //sort clicks
-    private void NameColumnHeader_Click(object sender, RoutedEventArgs e)
+
+
+    /*
+    public void nameColumnHeader_Click(object sender, RoutedEventArgs e)
     {
-        _sort.nameColumnHeader_Click(sender, e);
+        if (isNameSortClicked)
+        {
+            isNameSortClicked = false;
+            //_ = _libraryviewmodel.ShowBooks();
+        }
+        else
+        {
+            isAuthorSortClicked = false;
+            isGenreSortClicked = false;
+            isYearSortClicked = false;
+            isNameSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            booksToSort.Sort((x, y) => string.Compare(x.Name, y.Name));
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
     }
-    private void AuthorColumnHeader_Click(object sender, RoutedEventArgs e)
+    public void authorColumnHeader_Click(object sender, RoutedEventArgs e)
     {
-        _sort.authorColumnHeader_Click(sender, e);
+        if (isAuthorSortClicked)
+        {
+            isAuthorSortClicked = false;
+            //  _ = _libraryviewmodel.ShowBooks();
+        }
+        else
+        {
+            isNameSortClicked = false;
+            isGenreSortClicked = false;
+            isYearSortClicked = false;
+            isAuthorSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            booksToSort.Sort((x, y) => string.Compare(x.Author, y.Author));
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
     }
-    private void GenreColumnHeader_Click(object sender, RoutedEventArgs e)
+    public void genreColumnHeader_Click(object sender, RoutedEventArgs e)
     {
-        _sort.genreColumnHeader_Click(sender, e);
+        if (isGenreSortClicked)
+        {
+            isGenreSortClicked = false;
+            //  _ = _libraryviewmodel.ShowBooks();
+        }
+        else
+        {
+            isNameSortClicked = false;
+            isAuthorSortClicked = false;
+            isYearSortClicked = false;
+            isGenreSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            booksToSort.Sort((x, y) => string.Compare(x.Genre, y.Genre));
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
     }
-    private void YearColumnHeader_Click(object sender, RoutedEventArgs e)
+    public void yearColumnHeader_Click(object sender, RoutedEventArgs e)
     {
-        _sort.yearColumnHeader_Click(sender, e);
+        if (isYearSortClicked)
+        {
+            isYearSortClicked = false;
+            //  _ = _libraryviewmodel.ShowBooks();
+        }
+        else
+        {
+            isNameSortClicked = false;
+            isAuthorSortClicked = false;
+            isGenreSortClicked = false;
+            isYearSortClicked = true;
+            booksToSort = bookList.ItemsSource as List<Book>;
+            //booksToSort.Sort((x, y) => string.Compare(x.Release, y.Release));
+            booksToSort = booksToSort.OrderByDescending(x => x.Release).ToList();
+            bookList.ItemsSource = new List<Book>();
+            bookList.ItemsSource = booksToSort;
+        }
     }
-    //button methods
-    private void AddBookButton_Click(object sender, RoutedEventArgs e)
-    {
-        _buttons.AddBookButton_Click(sender, e);
-    }
-    private void DeleteBookButton_Click( object sender, RoutedEventArgs e)
-    {
-        _buttons.DeleteBookButton_Click(sender, e);
-    }
-    private void EditBookButton_Click(object sender, RoutedEventArgs e)
-    {
-        _buttons.EditBookButton_Click(sender, e);
-    }
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        _buttons.Button_Click(sender, e);
-    }
+    */
 }

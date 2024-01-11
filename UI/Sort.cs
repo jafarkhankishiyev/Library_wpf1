@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library_wpf.ViewModelNameSpace;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Library_wpf.UI
             if (isNameSortClicked)
             {
                 isNameSortClicked = false;
-                _ = _mainwindow.ShowBooks();
+                //_ = _libraryviewmodel.ShowBooks();
             }
             else
             {
@@ -43,7 +44,7 @@ namespace Library_wpf.UI
             if (isAuthorSortClicked)
             {
                 isAuthorSortClicked = false;
-                _ = _mainwindow.ShowBooks();
+              //  _ = _libraryviewmodel.ShowBooks();
             }
             else
             {
@@ -62,7 +63,7 @@ namespace Library_wpf.UI
             if (isGenreSortClicked)
             {
                 isGenreSortClicked = false;
-                _ = _mainwindow.ShowBooks();
+              //  _ = _libraryviewmodel.ShowBooks();
             }
             else
             {
@@ -81,7 +82,7 @@ namespace Library_wpf.UI
             if (isYearSortClicked)
             {
                 isYearSortClicked = false;
-                _ = _mainwindow.ShowBooks();
+              //  _ = _libraryviewmodel.ShowBooks();
             }
             else
             {

@@ -1,6 +1,9 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace Library_wpf
 {
-    public class Book 
+    public class Book : INotifyPropertyChanged
     {
 
         //fields
@@ -13,22 +16,38 @@ namespace Library_wpf
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set 
+            { 
+                name = value; 
+                OnPropertyChanged("Name");
+            }
         } 
         public string Author
         {
             get { return author; }
-            set { author = value; }
+            set 
+            {
+                author = value; 
+                OnPropertyChanged("Author");
+            }
         }
         public string Genre 
         { 
             get { return genre; }
-            set { genre = value; }
+            set 
+            { 
+                genre = value; 
+                OnPropertyChanged("Genre");
+            }
         }
         public int Release
         { 
             get { return release; }
-            set { release = value; }
+            set 
+            { 
+                release = value; 
+                OnPropertyChanged("Release");
+            }
         }
 
         //constructors   
@@ -51,6 +70,11 @@ namespace Library_wpf
         public override string ToString()
         {
             return $"{this.Name} \t {this.Author} \t {this.Genre} \t {this.Release}";
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }
