@@ -20,7 +20,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <ListView Grid.Row="1" Grid.RowSpan="3" Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionMode="Single" SelectedItem="{Binding SelectedBook}" ItemsSource="{Binding BookListSource}" SelectionChanged="BookList_SelectionChanged">
+        <ListView Grid.Row="1" Grid.RowSpan="3" Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionMode="Multiple" SelectedItem="{Binding SelectedBook}" ItemsSource="{Binding BookListSource}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="30">
@@ -34,28 +34,32 @@
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="150">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="NameColumnHeader_Click"/>
+                                <Setter Property="Command" Value="{Binding DataContext.SortByNameCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Path=BookListSource}" />
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
                     <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author}" Width="120">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="AuthorColumnHeader_Click"/>
+                                <Setter Property="Command" Value="{Binding DataContext.SortByAuthorCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Path=BookListSource}" />
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
                     <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}" Width="120">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="GenreColumnHeader_Click"/>
+                                <Setter Property="Command" Value="{Binding DataContext.SortByGenreCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Path=BookListSource}" />
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
                     <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Release}" Width="120">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <EventSetter Event="Click" Handler="YearColumnHeader_Click"/>
+                                <Setter Property="Command" Value="{Binding DataContext.SortByYearCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Path=BookListSource}" />
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
@@ -81,7 +85,6 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
