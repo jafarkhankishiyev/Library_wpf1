@@ -12,11 +12,12 @@ using System.Runtime.CompilerServices;
 
 namespace Library_wpf.ViewModelNameSpace
 {
-    class LibraryViewModel : INotifyPropertyChanged
+    class MainViewModel : INotifyPropertyChanged
     {
+
         //fields
         public event PropertyChangedEventHandler? PropertyChanged;
-        private BookDB _bookDB;
+        private IBookDB _bookDB;
         private RelayCommand addBookCommand;
         private RelayCommand deleteBookCommand;
         private RelayCommand editBookCommand;
@@ -189,9 +190,9 @@ namespace Library_wpf.ViewModelNameSpace
         public bool isYearSortClicked = false;
         private List<Book> booksToSort = new List<Book>();
 
-        public LibraryViewModel()
+        public MainViewModel(IBookDB bookDB)
         {
-            _bookDB = new BookDB();
+            _bookDB = bookDB;
             _ = GetBooks();
             AddButtonEnabled = true;
             EditButtonEnabled = false; 

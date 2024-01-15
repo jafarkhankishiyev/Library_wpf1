@@ -11,6 +11,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Npgsql;
 using Library_wpf.ViewModelNameSpace;
+using Library_wpf.DB;
 
 namespace Library_wpf;
 
@@ -22,6 +23,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new LibraryViewModel();
+        DataContext = new MainViewModel(new BookDB());
     }
 }

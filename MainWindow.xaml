@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Library_wpf"
         mc:Ignorable="d"
-        Title="Library" Height="450" Width="800">
+        Title="Library" Height="720" Width="960">
     <Grid ShowGridLines ="False">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -20,7 +20,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <ListView Grid.Row="1" Grid.RowSpan="3" Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionMode="Multiple" SelectedItem="{Binding SelectedBook}" ItemsSource="{Binding BookListSource}">
+        <ListView Grid.Row="1" Grid.RowSpan="3" Name="bookList" Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.ColumnSpan="3" SelectionMode="Single" SelectedItem="{Binding SelectedBook}" ItemsSource="{Binding BookListSource}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="30">
@@ -31,7 +31,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="150">
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Name}" Width="120">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="Command" Value="{Binding DataContext.SortByNameCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
@@ -55,7 +55,7 @@
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
-                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Release}" Width="120">
+                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Release}" Width="60">
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="Command" Value="{Binding DataContext.SortByYearCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
@@ -75,6 +75,62 @@
                 <SolidColorBrush Opacity="0.5" Color="Blue"/>
             </Button.Background>
         </Button>
+        <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="1" x:Name="authorGenreGrid" IsEnabled="{Binding AuthorGenreGridEnabled}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <ComboBox Grid.Row="2" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedAuthor}"/>
+            <ComboBox Grid.Row="15" ItemsSource="{Binding GenreListSource}" SelectedItem="{Binding SelectedGenre}"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Author" FontWeight="Bold" HorizontalAlignment="Center" Background="Gray"> </TextBlock>
+            <TextBlock Grid.Row="13" Grid.Column="0" Text="Genre" FontWeight="Bold" HorizontalAlignment="Center" Background="Gray"></TextBlock>
+            <TextBlock Grid.Row="3" Text="Name, Surname" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="5" Text="Mobile" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="7" Text="Email" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="9" Text="Birthday" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="16" Text="Name" HorizontalAlignment="Center"> </TextBlock>
+
+            <TextBox Grid.Row="4" Grid.Column="0" Text="{Binding AuthorNameText}"></TextBox>
+            <TextBox Grid.Row="6" Text="{Binding AuthorMobileText}"/>
+            <TextBox Grid.Row="8" Text="{Binding AuthorEmailText}"/>
+            <TextBox Grid.Row="10" Text="{Binding AuthorBirthdayText}"/>
+            <TextBox Grid.Row="17" Grid.Column="0" Text="{Binding GenreNameText}"></TextBox>
+
+            <Button Grid.Row="1" x:Name="AddAuthorButton" Content="Add" HorizontalAlignment="Left" Width="40" Command="{Binding AddAuthorCommand}"/>
+            <Button Grid.Row="1" x:Name="EditAuthorButton" Content="Edit" HorizontalAlignment="Center" Width="40" Command="{Binding EditAuthorCommand}"/>
+            <Button Grid.Row="1" x:Name="DeleteAuthorButton" Content="Delete" HorizontalAlignment="Right" Width="40" Command="{Binding DeleteAuthorCommand}"/>
+            <Button Grid.Row="11" x:Name="SaveAuthorButton" Content="Save" HorizontalAlignment="Center" Width="40" Command="{Binding SaveAuthorCommand}"/>
+            <Button Grid.Row="14" x:Name="AddGenreButton" Content="Add" HorizontalAlignment="Left" Width="40" Command="{Binding AddGenreCommand}"/>
+            <Button Grid.Row="14" x:Name="EditGenreButton" Content="Edit" HorizontalAlignment="Center" Width="40" Command="{Binding EditGenreCommand}"/>
+            <Button Grid.Row="14" x:Name="DeleteGenreButton" Content="Delete" HorizontalAlignment="Right" Width="40" Command="{Binding DeleteGenreCommand}"/>
+            <Button Grid.Row="18" x:Name="SaveGenreButton" Content="Save" Width="40" Command="{Binding SaveGenreCommand}"/>
+        </Grid>
         <Grid Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="3" x:Name="dynamicVisGrid" IsEnabled="{Binding DynamicVisGridEnabled}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -98,17 +154,16 @@
             <TextBox Grid.Column="4" Grid.Row="1" x:Name="genreTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding GenreText}" />
             <TextBox Grid.Column="4" Grid.Row="3" x:Name="yearTextBox" Height="Auto" VerticalAlignment="Center"  Text="{Binding YearText}"/>
 
-
-
             <TextBlock Grid.Row="1" Grid.Column="3" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="91,0,0,0">Genre:</TextBlock>
             <TextBlock Grid.Row="3" Grid.Column="1" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Author:</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="1" x:Name="nameTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Title:</TextBlock>
             <TextBlock Grid.Row="3" Grid.Column="3" x:Name="yearTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right" >Year:</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="3" x:Name="BookTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Book" FontWeight="Bold" Background="Gray"/>
 
             <TextBlock Grid.Row="0" Grid.Column="2" x:Name="nameWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding NameWarningText}"/>
             <TextBlock Grid.Row="2" Grid.Column="2" x:Name="authorWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding AuthorWarningText}"/>
             <TextBlock Grid.Row="0" Grid.Column="4" x:Name="genreWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding GenreWarningText}"/>
-            <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" x:Name="yearWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding YearWarningText}"/>
+            <TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" x:Name="yearWarningTextBlock" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="Red" FontSize="12" Text="{Binding YearWarningText}"/>
 
         </Grid>
     </Grid>

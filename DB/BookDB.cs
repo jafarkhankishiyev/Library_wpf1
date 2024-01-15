@@ -9,7 +9,7 @@ using System.Windows.Documents;
 
 namespace Library_wpf.DB
 {
-    public class BookDB : DB
+    public class BookDB : DB, IBookDB
     {
         private readonly string _table = "books";
         private readonly string _columns = "name, author, genre, released";
@@ -29,7 +29,6 @@ namespace Library_wpf.DB
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
             await using var command = dataSource.CreateCommand(_readquery);
             await using var reader = await command.ExecuteReaderAsync();
-            int i = 0;
             if (reader.HasRows)
             {
                 while (await reader.ReadAsync())
@@ -40,7 +39,6 @@ namespace Library_wpf.DB
                     book.Genre = reader.GetString(2);
                     book.Release = reader.GetInt32(3);
                     books.Add(book);
-                    i++;
                 }
             }
             return books;
@@ -100,7 +98,6 @@ namespace Library_wpf.DB
                 }
                 else
                 {
-
                     dataChoice = dataChoiceList[0];
                     editQuery = $"UPDATE books SET {dataChoice}=@DataUpdate WHERE name=@BookName";
                 }
@@ -127,9 +124,7 @@ namespace Library_wpf.DB
                         else
                         {
                             command5.Parameters.AddWithValue($"DataUpdate{i}", Int32.Parse(dataUpdateList[i]));
-                        }
-
-                            
+                        }     
                     }
                 }
                 command5.Parameters.AddWithValue("@BookName", oldBook.Name);
@@ -140,14 +135,6 @@ namespace Library_wpf.DB
             {
                 return 0;
             }
-        }
-        public async Task<int> DeleteBook(List<Book> books, int bookDeleteNumInt)
-        {
-            await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
-            await using var command7 = dataSource.CreateCommand(_deletequery);
-            command7.Parameters.AddWithValue("@BookToDelete", books[bookDeleteNumInt].Name);
-            int number = await command7.ExecuteNonQueryAsync();
-            return number;
         }
         public async Task<int> DeleteBook(Book book)
         {
