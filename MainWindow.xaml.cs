@@ -23,6 +23,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainViewModel(new BookDB());
+        DataContext = new MainViewModel(new BookDB(), new AuthorDB(), new GenreDB());
     }
 }

@@ -11,6 +11,7 @@ namespace Library_wpf.DB
 {
     public class BookDB : DB, IBookDB
     {
+        //fields
         private readonly string _table = "books";
         private readonly string _columns = "name, author, genre, released";
         private readonly string _insertParameters = "@BookName, @BookAuthor, @BookGenre, @BookYear";
@@ -19,10 +20,13 @@ namespace Library_wpf.DB
         private readonly string _addquery;
         private readonly string _deletequery;
 
+        //constructor
         public BookDB()
         {
             (_readquery, _addquery, _deletequery) = TailorDB(_table, _columns, _insertParameters, _deleteColAndParam);
         }
+
+        //methods
         public async Task<List<Book>> GetBooksAsync()
         {
             List<Book> books = new List<Book>();
