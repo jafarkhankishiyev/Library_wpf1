@@ -29,6 +29,9 @@ namespace Library_wpf.DB
         public async Task<List<Author>> GetAuthorsAsync()
         {
             List<Author> authors = new List<Author>();
+            Author defaultAuthor = new Author();
+            defaultAuthor.Name = "Not Chosen";
+            authors.Add(defaultAuthor);
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
             await using var command = dataSource.CreateCommand(_readquery);
             await using var reader = await command.ExecuteReaderAsync();

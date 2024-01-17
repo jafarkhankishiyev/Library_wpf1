@@ -33,7 +33,7 @@ namespace Library_wpf.Models
         }
         public Author(string namePar, string mobilePar, string emailPar, DateTime birthdayPar)
         {
-            name = namePar;
+            Name = namePar;
             Mobile = mobilePar;
             Email = emailPar;
             Birthday = birthdayPar;

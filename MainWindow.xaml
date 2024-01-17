@@ -75,7 +75,7 @@
                 <SolidColorBrush Opacity="0.5" Color="Blue"/>
             </Button.Background>
         </Button>
-        <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="1" x:Name="authorGenreGrid" IsEnabled="{Binding AuthorGenreGridEnabled}">
+        <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="1" x:Name="authorGenreGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -115,11 +115,11 @@
             <TextBlock Grid.Row="7" Text="Email" HorizontalAlignment="Center"/>
             <TextBlock Grid.Row="9" Text="Birthday" HorizontalAlignment="Center"/>
             <TextBlock Grid.Row="16" Text="Name" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding AuthorNameWarningText}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding AuthorMobileWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding AuthorEmailWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <TextBlock Grid.Row="10" Grid.Column="1" Text="{Binding AuthorBirthdayWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <TextBlock Grid.Row="17" Grid.Column="1" Text="{Binding GenreNameWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding AuthorNameWarningText}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="Red"/>
+            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding AuthorMobileWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+            <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding AuthorEmailWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+            <TextBlock Grid.Row="10" Grid.Column="1" Text="{Binding AuthorBirthdayWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+            <TextBlock Grid.Row="17" Grid.Column="1" Text="{Binding GenreNameWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
 
             <TextBox x:Name="AuthorNameTextBox" Grid.Row="4" Grid.Column="0" Text="{Binding AuthorNameText}" IsEnabled="{Binding AuthorNameTextBoxEnabled}"/>
             <TextBox x:Name="AuthorMobileTextBox" Grid.Row="6" Text="{Binding AuthorMobileText}" IsEnabled="{Binding AuthorMobileTextBoxEnabled}"/>
@@ -138,10 +138,9 @@
             <Button Grid.Row="2" Grid.Column="1" x:Name="ClearAuthorComboBox" Content="Clear" Command="{Binding ClearAuthorComboBoxCommand}" IsEnabled="{Binding ClearAuthorComboBoxEnabled}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <Button Grid.Row="15" Grid.Column="1" x:Name="ClearGenreCombobox" Content="Clear" Command="{Binding ClearGenreComboBoxCommand}" IsEnabled="{Binding ClearGenreComboBoxEnabled}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         </Grid>
-        <Grid Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="3" x:Name="dynamicVisGrid" IsEnabled="{Binding DynamicVisGridEnabled}">
+
+        <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="1" x:Name="dynamicVisGrid" IsEnabled="{Binding DynamicVisGridEnabled}" HorizontalAlignment="Left" Width="360">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -156,21 +155,21 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Column="2" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding NameText}" Focusable="{Binding NameTextBoxFocus}" />
-            <TextBox Grid.Column="2" Grid.Row="3" x:Name="authorTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding AuthorText}" />
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding NameText}" Focusable="{Binding NameTextBoxFocus}" />
+            <TextBox Grid.Column="1" Grid.Row="3" x:Name="authorTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding AuthorText}" />
             <TextBox Grid.Column="4" Grid.Row="1" x:Name="genreTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding GenreText}" />
             <TextBox Grid.Column="4" Grid.Row="3" x:Name="yearTextBox" Height="Auto" VerticalAlignment="Center"  Text="{Binding YearText}"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="3" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="91,0,0,0">Genre:</TextBlock>
-            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Author:</TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="1" x:Name="nameTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Title:</TextBlock>
-            <TextBlock Grid.Row="3" Grid.Column="3" x:Name="yearTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right" >Year:</TextBlock>
-            <TextBlock Grid.Row="0" Grid.Column="3" x:Name="BookTextBlock" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Book" FontWeight="Bold" Background="Gray"/>
+            <TextBlock Grid.Row="1" Grid.Column="2" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right">Genre:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Author:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1" x:Name="nameTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right">Title:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="2" x:Name="yearTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right" >Year:</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="BookTextBlock" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Book" FontWeight="Bold" Background="Gray"/>
 
-            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="nameWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding NameWarningText}"/>
-            <TextBlock Grid.Row="2" Grid.Column="2" x:Name="authorWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding AuthorWarningText}"/>
-            <TextBlock Grid.Row="0" Grid.Column="4" x:Name="genreWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding GenreWarningText}"/>
-            <TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" x:Name="yearWarningTextBlock" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="Red" FontSize="12" Text="{Binding YearWarningText}"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="nameWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding NameWarningText}"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="authorWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding AuthorWarningText}"/>
+            <TextBlock Grid.Row="0" Grid.Column="3" x:Name="genreWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding GenreWarningText}"/>
+            <TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" x:Name="yearWarningTextBlock" VerticalAlignment="Bottom"  Foreground="Red" FontSize="12" Text="{Binding YearWarningText}"/>
 
         </Grid>
     </Grid>

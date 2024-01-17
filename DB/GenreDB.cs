@@ -29,6 +29,9 @@ namespace Library_wpf.DB
         public async Task<List<Genre>> GetGenresAsync()
         {
             List<Genre> genres = new List<Genre>();
+            Genre defaultGenre = new Genre();
+            defaultGenre.Name = "Not Chosen";
+            genres.Add(defaultGenre);
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
             await using var command = dataSource.CreateCommand(_readquery);
             await using var reader = await command.ExecuteReaderAsync();
@@ -59,13 +62,13 @@ namespace Library_wpf.DB
             {
                 dataUpdate = newGenre.Name;
             }
-            if(string.IsNullOrEmpty(dataUpdate))
+            if(!string.IsNullOrEmpty(dataUpdate))
             { 
                 string editQuery = "";
                 string dataChoice = "name";
-                editQuery = $"UPDATE authors SET {dataChoice}=@DataUpdate WHERE name=@GenreName";
+                editQuery = $"UPDATE genres SET {dataChoice}=@DataUpdate WHERE name=@GenreName";
                 await using var command5 = dataSource.CreateCommand(editQuery);
-                command5.Parameters.AddWithValue("DataUpdate", dataUpdate);
+                command5.Parameters.AddWithValue("@DataUpdate", dataUpdate);
                 command5.Parameters.AddWithValue("@GenreName", oldGenre.Name);
                 int number = await command5.ExecuteNonQueryAsync();
                 return number;
