@@ -11,6 +11,8 @@ using Library_wpf;
 using System.Runtime.CompilerServices;
 using Library_wpf.Models;
 using System.Globalization;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Library_wpf.ViewModelNameSpace
 {
@@ -22,6 +24,7 @@ namespace Library_wpf.ViewModelNameSpace
         private IBookDB _bookDB;
         private IAuthorDB _authorDB;
         private IGenreDB _genreDB;
+        private List<Author> filteredAuthors;
         private RelayCommand addBookCommand;
         private RelayCommand deleteBookCommand;
         private RelayCommand editBookCommand;
@@ -101,6 +104,7 @@ namespace Library_wpf.ViewModelNameSpace
         private RelayCommand saveGenreCommand;
         private RelayCommand clearAuthorComboBoxCommand;
         private RelayCommand clearGenreComboBoxCommand;
+        private RelayCommand<ComboBox> authorComboBoxKeyDownCommand;
 
         //properties
         public string NameText { get { return nameText; } 
@@ -134,6 +138,7 @@ namespace Library_wpf.ViewModelNameSpace
                 yearText = value; OnPropertyChanged("YearText");
             }
         }
+        public List<Author> FilteredAuthors { get { return filteredAuthors; } set { filteredAuthors = value; OnPropertyChanged("FilteredAuthors"); }}
         public string AuthorNameText { get { return authorNameText; } 
             set 
             {
@@ -484,6 +489,8 @@ namespace Library_wpf.ViewModelNameSpace
         public RelayCommand DeleteGenreCommand { get { return deleteGenreCommand ?? (deleteGenreCommand = new RelayCommand(obj => DeleteGenreCommandMethod())); }}
         public RelayCommand ClearAuthorComboBoxCommand { get { return clearAuthorComboBoxCommand ?? (clearAuthorComboBoxCommand = new RelayCommand(obj => ClearAuthorComboBoxCommandMethod())); } }
         public RelayCommand ClearGenreComboBoxCommand { get { return clearGenreComboBoxCommand ?? (clearGenreComboBoxCommand = new RelayCommand(obj => ClearGenreComboBoxCommandMethod())); }}
+        public RelayCommand<ComboBox> AuthorComboBoxKeyDownCommand { get { return authorComboBoxKeyDownCommand ?? (authorComboBoxKeyDownCommand = new RelayCommand<ComboBox>(AuthorComboBoxKeyDownCommandMethod)); } }
+
         public bool isNameSortClicked = false;
         public bool isAuthorSortClicked = false;
         public bool isGenreSortClicked = false;
@@ -960,6 +967,8 @@ namespace Library_wpf.ViewModelNameSpace
             MessageBox.Show($"Deleted {result} genre.");
             ClearGenreComboBoxCommandMethod();
         }
+
+        //combobox methods
         public void ClearAuthorComboBoxCommandMethod()
         {
             AuthorNameTextBoxEnabled = false;
@@ -982,6 +991,16 @@ namespace Library_wpf.ViewModelNameSpace
         public void ClearBookAuthorComboBox() 
         {
             SelectedBookAuthor = AuthorListSource[0];
+        }
+        public void AuthorComboBoxKeyDownCommandMethod(ComboBox comboBox)
+        {
+            if (comboBox != null && comboBox.IsDropDownOpen)
+            {
+                char keyPressed = KeyInterop.VirtualKeyFromKey(e.Key).ToString().ToLower()[0];
+                FilteredAuthors = new List<Author>(
+                    AuthorListSource.Where(author => author.Name.ToLower()[0] == keyPressed));
+            }
+            AuthorListSource = FilteredAuthors;
         }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

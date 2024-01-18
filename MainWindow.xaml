@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Library_wpf"
         mc:Ignorable="d"
         Title="Library" Height="720" Width="1080">
@@ -35,7 +36,7 @@
                         <GridViewColumn.HeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="Command" Value="{Binding DataContext.SortByNameCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
-                                <Setter Property="CommandParameter" Value="{Binding Path=BookListSource}" />
+                                <Setter Property="CommandParameter" Value="{Binding Path=BookListSource}"/>
                             </Style>
                         </GridViewColumn.HeaderContainerStyle>
                     </GridViewColumn>
@@ -105,7 +106,19 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
-            <ComboBox Grid.Row="2" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedAuthor}"  DisplayMemberPath="Name"/>
+            <ComboBox Grid.Row="2" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedAuthor}"  DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="False" IsEditable="True">
+                <ComboBox.Triggers>
+                    <EventTrigger RoutedEvent="TextBoxBase.TextChanged">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsDropDownOpen">
+                                    <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
+                                </BooleanAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ComboBox.Triggers>
+            </ComboBox>
             <ComboBox Grid.Row="15" ItemsSource="{Binding GenreListSource}" SelectedItem="{Binding SelectedGenre}" DisplayMemberPath="Name"/>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Author" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Gray"/>
@@ -155,7 +168,7 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
-            <ComboBox Grid.Column="1" Grid.Row="3" x:Name="AuthorBookComboBox" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedBookAuthor}" DisplayMemberPath="Name"/>
+            <ComboBox Grid.Column="1" Grid.Row="3" x:Name="AuthorBookComboBox" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedBookAuthor}" DisplayMemberPath="Name" />
             <ComboBox Grid.Column="4" Grid.Row="1" x:Name="GenreBookComboBox" ItemsSource="{Binding GenreListSource}" SelectedItem="{Binding SelectedBookGenre}" DisplayMemberPath="Name"/>
 
             <TextBox Grid.Column="1" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding NameText}" Focusable="{Binding NameTextBoxFocus}"/>
