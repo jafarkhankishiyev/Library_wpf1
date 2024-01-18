@@ -29,6 +29,10 @@ namespace Library_wpf.Models
         {
             this.name = name;
         }
+        public override string ToString()
+        {
+            return $"{this.Name}";
+        }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

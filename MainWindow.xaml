@@ -155,9 +155,10 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Column="1" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding NameText}" Focusable="{Binding NameTextBoxFocus}" />
-            <TextBox Grid.Column="1" Grid.Row="3" x:Name="authorTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding AuthorText}" />
-            <TextBox Grid.Column="4" Grid.Row="1" x:Name="genreTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding GenreText}" />
+            <ComboBox Grid.Column="1" Grid.Row="3" x:Name="AuthorBookComboBox" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedBookAuthor}" DisplayMemberPath="Name"/>
+            <ComboBox Grid.Column="4" Grid.Row="1" x:Name="GenreBookComboBox" ItemsSource="{Binding GenreListSource}" SelectedItem="{Binding SelectedBookGenre}" DisplayMemberPath="Name"/>
+
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" Text="{Binding NameText}" Focusable="{Binding NameTextBoxFocus}"/>
             <TextBox Grid.Column="4" Grid.Row="3" x:Name="yearTextBox" Height="Auto" VerticalAlignment="Center"  Text="{Binding YearText}"/>
 
             <TextBlock Grid.Row="1" Grid.Column="2" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Right">Genre:</TextBlock>

@@ -82,6 +82,8 @@ namespace Library_wpf.ViewModelNameSpace
         private object selectedBook;
         private object selectedAuthor;
         private object selectedGenre;
+        private object selectedBookAuthor;
+        private object selectedBookGenre;
         private bool dynamicVisGridEnabled;
         private List<Book> bookListSource;
         private List<Author> authorListSource;
@@ -367,6 +369,8 @@ namespace Library_wpf.ViewModelNameSpace
                 } 
                 else
                 {
+                    ClearBookAuthorComboBox();
+                    ClearBookGenreComboBox();
                     ClearGenreComboBoxCommandMethod();
                     DynamicVisGridEnabled = false;
                     SaveButtonEnabled = false;
@@ -392,6 +396,8 @@ namespace Library_wpf.ViewModelNameSpace
                 }
                 else
                 {
+                    ClearBookAuthorComboBox();
+                    ClearBookGenreComboBox();
                     ClearAuthorComboBoxCommandMethod();
                     ClearBookText();
                     AddGenreButtonEnabled= false;
@@ -400,6 +406,43 @@ namespace Library_wpf.ViewModelNameSpace
                     ClearGenreComboBoxEnabled = true;
                 }
                 OnPropertyChanged("SelectedGenre");
+            } 
+        }
+        public object SelectedBookAuthor { get { return selectedBookAuthor; } 
+            set 
+            {
+                selectedBookAuthor = value; 
+                OnPropertyChanged("SelectedBookAuthor");
+                if (isAddBookButtonClicked || isEditBookButtonClicked)
+                {
+                    if (selectedBookAuthor == AuthorListSource[0] || selectedBookGenre == GenreListSource[0])
+                    {
+                        SaveButtonEnabled = false;
+                    }
+                    else
+                    {
+                        SaveButtonEnabled = true;
+                    }
+                }
+            } 
+        }
+        public object SelectedBookGenre { get { return selectedBookGenre; } 
+            set 
+            { 
+                selectedBookGenre = value; 
+                OnPropertyChanged("SelectedBookGenre");
+                if(isAddBookButtonClicked || isEditBookButtonClicked)
+                {
+
+                    if (selectedBookGenre == GenreListSource[0] || SelectedBookAuthor == AuthorListSource[0])
+                    {
+                        SaveButtonEnabled = false;
+                    }
+                    else
+                    {
+                        SaveButtonEnabled = true;
+                    }
+                }
             } 
         }
         public List<Book> BookListSource { get { return bookListSource; }
@@ -469,11 +512,13 @@ namespace Library_wpf.ViewModelNameSpace
         {
             AuthorListSource = await _authorDB.GetAuthorsAsync();
             ClearAuthorComboBoxCommandMethod();
+            ClearBookAuthorComboBox();
         }
         public async Task GetGenres()
         {
             GenreListSource = await _genreDB.GetGenresAsync();
             ClearGenreComboBoxCommandMethod();
+            ClearBookGenreComboBox();
         }
         public void ClearBookText()
         {
@@ -584,8 +629,8 @@ namespace Library_wpf.ViewModelNameSpace
             isButton1Clicked = true;
             Book book = new Book();
             book.Name = NameText;
-            book.Author = AuthorText;
-            book.Genre = GenreText;
+            book.Author = (SelectedBookAuthor as Author).Name;
+            book.Genre = (SelectedBookGenre as Genre).Name;
             int result;
             bool releaseCheck = Int32.TryParse(YearText, out result);
             if (releaseCheck)
@@ -621,6 +666,8 @@ namespace Library_wpf.ViewModelNameSpace
                 DeleteButtonEnabled = false;
                 _ = GetBooks();
                 SaveButtonEnabled = false;
+                ClearBookGenreComboBox();
+                ClearBookAuthorComboBox();
             }
             else
             {
@@ -635,11 +682,26 @@ namespace Library_wpf.ViewModelNameSpace
             isAddBookButtonClicked = false;
             DynamicVisGridEnabled = true;
             Book oldBook = SelectedBook as Book;
+            Author bookAuthor = new Author();
+            bookAuthor.Name = (SelectedBook as Book).Author;
+            Genre bookGenre = new Genre();
+            bookGenre.Name = (SelectedBook as Book).Genre;
+            foreach (Author author in AuthorListSource)
+            {
+                if(author.Name == bookAuthor.Name)
+                {
+                    SelectedBookAuthor = author;
+                }
+            }
+            foreach (Genre genre in GenreListSource)
+            {
+                if(genre.Name == bookGenre.Name)
+                {
+                    SelectedBookGenre = genre;
+                }
+            }
             NameText = oldBook.Name;
-            AuthorText = oldBook.Author;
-            GenreText = oldBook.Genre;
             YearText = oldBook.Release.ToString();
-            SaveButtonEnabled = true;
         }
         public async void DeleteBookCommandMethod()
         {
@@ -666,7 +728,6 @@ namespace Library_wpf.ViewModelNameSpace
             NameTextBoxFocus = true;
             isAddBookButtonClicked = true;
             isEditBookButtonClicked = false;
-            SaveButtonEnabled = true;
         }
         
         //sort commands
@@ -840,6 +901,8 @@ namespace Library_wpf.ViewModelNameSpace
             isAddAuthorButtonClicked = true;
             isEditAuthorButtonClicked = false;
             SaveAuthorButtonEnabled = true;
+            ClearBookAuthorComboBox();
+            ClearBookGenreComboBox();
         }
         public void AddGenreCommandMethod()
         {
@@ -853,6 +916,8 @@ namespace Library_wpf.ViewModelNameSpace
             isEditGenreButtonClicked = false;
             isAddGenreButtonClicked = true;
             SaveGenreButtonEnabled = true;
+            ClearBookAuthorComboBox();
+            ClearBookGenreComboBox();
         }
         public void EditAuthorCommandMethod()
         {
@@ -868,6 +933,7 @@ namespace Library_wpf.ViewModelNameSpace
             AuthorEmailTextBoxEnabled = true;
             AuthorMobileTextBoxEnabled = true;
             AuthorBirthdayTextBoxEnabled = true;
+
         }
         public void EditGenreCommandMethod()
         {
@@ -908,6 +974,14 @@ namespace Library_wpf.ViewModelNameSpace
             GenreNameTextBoxEnabled = false;
             ClearGenreText();
             SelectedGenre = GenreListSource[0];
+        }
+        public void ClearBookGenreComboBox()
+        {
+            SelectedBookGenre = GenreListSource[0];
+        }
+        public void ClearBookAuthorComboBox() 
+        {
+            SelectedBookAuthor = AuthorListSource[0];
         }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
