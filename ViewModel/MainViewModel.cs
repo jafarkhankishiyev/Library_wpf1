@@ -24,13 +24,11 @@ namespace Library_wpf.ViewModelNameSpace
         private IBookDB _bookDB;
         private IAuthorDB _authorDB;
         private IGenreDB _genreDB;
-        private List<Author> filteredAuthors;
         private RelayCommand addBookCommand;
         private RelayCommand deleteBookCommand;
         private RelayCommand editBookCommand;
         private RelayCommand saveCommand;
         private RelayCommand sortByNameCommand;
-        private RelayCommand selectionChangedCommand;
         private string nameText;
         private string authorText;
         private string genreText;
@@ -82,13 +80,23 @@ namespace Library_wpf.ViewModelNameSpace
         private bool clearAuthorComboBoxEnabled;
         private bool clearGenreComboBoxEnabled;
         private bool nameTextBoxFocus;
+        private bool authorCheckBoxEnabled;
+        private bool genreCheckBoxEnabled;
+        private bool authorFilterEnabled;
+        private bool genreFilterEnabled;
+        private bool nameSearchBoxEnabled;
+        private bool nameSearchButtonEnabled;
+        private bool isGenreFilterChecked;
+        private bool isAuthorFilterChecked;
         private object selectedBook;
         private object selectedAuthor;
         private object selectedGenre;
         private object selectedBookAuthor;
         private object selectedBookGenre;
         private bool dynamicVisGridEnabled;
+        private string authorComboBoxSearchText;
         private List<Book> bookListSource;
+        private List<Book> bookListSourceCopy;
         private List<Author> authorListSource;
         private List<Genre> genreListSource;
         private RelayCommand sortByAuthorCommand;
@@ -104,7 +112,10 @@ namespace Library_wpf.ViewModelNameSpace
         private RelayCommand saveGenreCommand;
         private RelayCommand clearAuthorComboBoxCommand;
         private RelayCommand clearGenreComboBoxCommand;
-        private RelayCommand<ComboBox> authorComboBoxKeyDownCommand;
+        private RelayCommand searchByNameCommand;
+        private Author selectedAuthorToFilter;
+        private Genre selectedGenreToFilter;
+        private string searchByNameText;
 
         //properties
         public string NameText { get { return nameText; } 
@@ -138,7 +149,6 @@ namespace Library_wpf.ViewModelNameSpace
                 yearText = value; OnPropertyChanged("YearText");
             }
         }
-        public List<Author> FilteredAuthors { get { return filteredAuthors; } set { filteredAuthors = value; OnPropertyChanged("FilteredAuthors"); }}
         public string AuthorNameText { get { return authorNameText; } 
             set 
             {
@@ -242,6 +252,7 @@ namespace Library_wpf.ViewModelNameSpace
                 OnPropertyChanged("AuthorBirthdayWarningText"); 
             } 
         }
+        public string SearchByNameText { get { return searchByNameText; } set { searchByNameText = value; OnPropertyChanged("SearchByNameText"); } }
         public bool AddButtonEnabled { get { return addButtonEnabled; } 
             set
             {
@@ -341,6 +352,11 @@ namespace Library_wpf.ViewModelNameSpace
         public bool AuthorBirthdayTextBoxEnabled { get { return authorBirthdayTextBoxEnabled; } set { authorBirthdayTextBoxEnabled = value; OnPropertyChanged("AuthorBirthdayTextBoxEnabled"); } }
         public bool AuthorMobileTextBoxEnabled { get { return authorMobileTextBoxEnabled; } set { authorMobileTextBoxEnabled = value; OnPropertyChanged("AuthorMobileTextBoxEnabled"); } }
         public bool GenreNameTextBoxEnabled { get { return genreNameTextBoxEnabled; } set { genreNameTextBoxEnabled = value; OnPropertyChanged("GenreNameTextBoxEnabled"); } }
+        public bool AuthorCheckBoxEnabled { get { return authorCheckBoxEnabled; } set { authorCheckBoxEnabled = value; OnPropertyChanged("AuthorCheckBoxEnabled"); } }
+        public bool GenreCheckBoxEnabled { get { return genreCheckBoxEnabled; } set { genreCheckBoxEnabled = value; OnPropertyChanged("GenreCheckBoxEnabled"); } }
+        public bool IsAuthorFilterChecked { get { return isAuthorFilterChecked; } set { isAuthorFilterChecked = value; OnPropertyChanged("IsAuthorFilterChecked"); if (!authorCheckBoxEnabled) { SelectedAuthorToFilter = AuthorListSource[0]; } } }
+        public bool IsGenreFilterChecked { get { return isGenreFilterChecked; } set { isGenreFilterChecked = value; OnPropertyChanged("IsGenreFilterChecked"); SelectedGenreToFilter = GenreListSource[0]; } }
+        public bool NameSearchButtonEnabled { get { return nameSearchButtonEnabled; } set { nameSearchButtonEnabled = value; OnPropertyChanged("NameSearchButtonEnabled"); } }
         public object SelectedBook { get { return selectedBook; } 
             set 
             {
@@ -450,6 +466,78 @@ namespace Library_wpf.ViewModelNameSpace
                 }
             } 
         }
+        public  Author SelectedAuthorToFilter { get { return selectedAuthorToFilter; } 
+            set 
+            { 
+                selectedAuthorToFilter = value; 
+                OnPropertyChanged("SelectedAuthorToFilter");
+                if (selectedAuthorToFilter  != AuthorListSource[0] && selectedGenreToFilter == GenreListSource[0])
+                {
+                    BookListSource = new List<Book>();
+                    foreach (Book book in BookListSourceCopy) 
+                    {
+                        if(book.Author == selectedAuthorToFilter.Name)
+                        {
+                            BookListSource.Add(book);    
+                        }
+                    }
+                }
+                else if (selectedAuthorToFilter != AuthorListSource[0] && selectedGenreToFilter != GenreListSource[0])
+                {
+                    List<Book> bookListSourceMixFilter = BookListSource;
+                    BookListSource = new List<Book>();
+                    foreach(Book book in bookListSourceMixFilter)
+                    {
+                        if(book.Author == selectedAuthorToFilter.Name)
+                        {
+                            BookListSource.Add(book);
+                        }
+                    }
+                } 
+                else if(selectedAuthorToFilter == AuthorListSource[0] && selectedGenreToFilter != GenreListSource[0]) { }
+                else
+                {
+                    _ = GetBooks();                
+                }
+            } 
+        }
+        public Genre SelectedGenreToFilter { get { return selectedGenreToFilter; } 
+            set 
+            { 
+                selectedGenreToFilter = value; 
+                OnPropertyChanged("SelectedGenreToFilter"); 
+                if(selectedGenreToFilter != GenreListSource[0] && selectedAuthorToFilter == AuthorListSource[0])
+                {
+                    BookListSource = new List<Book>();
+                    foreach (Book book in BookListSourceCopy)
+                    {
+                        if(book.Genre == selectedGenreToFilter.Name)
+                        {
+                            BookListSource.Add(book);
+                        }
+                    }
+                }
+                else if(selectedGenreToFilter != GenreListSource[0] && selectedAuthorToFilter != AuthorListSource[0])
+                {
+                    List<Book> bookListSourceMixFilter = BookListSource;
+                    BookListSource = new List<Book>();
+                    foreach (Book book in bookListSourceMixFilter)
+                    {
+                        if (book.Genre == selectedGenreToFilter.Name)
+                        {
+                            BookListSource.Add(book);
+                        }
+                    }
+                } /*else if(selectedGenreToFilter == GenreListSource[0] && selectedAuthorToFilter != AuthorListSource[0])
+                {
+
+                }*/
+                else 
+                { 
+                    _ = GetBooks(); 
+                }
+            } 
+        }
         public List<Book> BookListSource { get { return bookListSource; }
             set 
             {
@@ -457,6 +545,7 @@ namespace Library_wpf.ViewModelNameSpace
                 OnPropertyChanged("BookListSource");
             }
         }
+        public List<Book> BookListSourceCopy { get; set; }
         public List<Author> AuthorListSource { get { return authorListSource; } 
             set
             {
@@ -489,7 +578,8 @@ namespace Library_wpf.ViewModelNameSpace
         public RelayCommand DeleteGenreCommand { get { return deleteGenreCommand ?? (deleteGenreCommand = new RelayCommand(obj => DeleteGenreCommandMethod())); }}
         public RelayCommand ClearAuthorComboBoxCommand { get { return clearAuthorComboBoxCommand ?? (clearAuthorComboBoxCommand = new RelayCommand(obj => ClearAuthorComboBoxCommandMethod())); } }
         public RelayCommand ClearGenreComboBoxCommand { get { return clearGenreComboBoxCommand ?? (clearGenreComboBoxCommand = new RelayCommand(obj => ClearGenreComboBoxCommandMethod())); }}
-        public RelayCommand<ComboBox> AuthorComboBoxKeyDownCommand { get { return authorComboBoxKeyDownCommand ?? (authorComboBoxKeyDownCommand = new RelayCommand<ComboBox>(AuthorComboBoxKeyDownCommandMethod)); } }
+        public RelayCommand SearchByNameCommand { get { return searchByNameCommand ?? (searchByNameCommand = new RelayCommand(obj => SearchByNameCommandMethod())); } }
+
 
         public bool isNameSortClicked = false;
         public bool isAuthorSortClicked = false;
@@ -514,6 +604,7 @@ namespace Library_wpf.ViewModelNameSpace
         public async Task GetBooks()
         {
             BookListSource = await _bookDB.GetBooksAsync();
+            BookListSourceCopy = await _bookDB.GetBooksAsync();
         }
         public async Task GetAuthors()
         {
@@ -987,20 +1078,16 @@ namespace Library_wpf.ViewModelNameSpace
         public void ClearBookGenreComboBox()
         {
             SelectedBookGenre = GenreListSource[0];
+            SelectedGenreToFilter = GenreListSource[0];
         }
         public void ClearBookAuthorComboBox() 
         {
             SelectedBookAuthor = AuthorListSource[0];
+            SelectedAuthorToFilter = AuthorListSource[0];
         }
-        public void AuthorComboBoxKeyDownCommandMethod(ComboBox comboBox)
+        private void SearchByNameCommandMethod()
         {
-            if (comboBox != null && comboBox.IsDropDownOpen)
-            {
-                char keyPressed = KeyInterop.VirtualKeyFromKey(e.Key).ToString().ToLower()[0];
-                FilteredAuthors = new List<Author>(
-                    AuthorListSource.Where(author => author.Name.ToLower()[0] == keyPressed));
-            }
-            AuthorListSource = FilteredAuthors;
+            
         }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
