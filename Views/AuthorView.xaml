@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="Library_wpf.Views.AuthorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library_wpf.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="1" x:Name="authorGenreGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedAuthor}" DisplayMemberPath="Name"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Author" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Gray"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="Name, Surname" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="Mobile" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="Email" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="9" Grid.Column="1" Text="Birthday" HorizontalAlignment="Center"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding AuthorNameWarningText}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="Red"/>
+            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding AuthorMobileWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+            <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding AuthorEmailWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+            <TextBlock Grid.Row="10" Grid.Column="1" Text="{Binding AuthorBirthdayWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+            <TextBlock Grid.Row="17" Grid.Column="1" Text="{Binding GenreNameWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+
+            <TextBox x:Name="AuthorNameTextBox" Grid.Row="4" Grid.Column="1" Text="{Binding AuthorNameText}" IsEnabled="{Binding AuthorNameTextBoxEnabled}"/>
+            <TextBox x:Name="AuthorMobileTextBox" Grid.Row="6" Grid.Column="1" Text="{Binding AuthorMobileText}" IsEnabled="{Binding AuthorMobileTextBoxEnabled}"/>
+            <TextBox x:Name="AuthorEmailTextBox" Grid.Row="8" Grid.Column="1" Text="{Binding AuthorEmailText}" IsEnabled="{Binding AuthorEmailTextBoxEnabled}"/>
+            <TextBox x:Name="AuthorBirthdayTextBox" Grid.Row="10" Grid.Column="1" Text="{Binding AuthorBirthdayText}" IsEnabled="{Binding AuthorBirthdayTextBoxEnabled}"/>
+
+            <Button Grid.Row="1" Grid.Column="1" x:Name="AddAuthorButton" Content="Add" HorizontalAlignment="Left" Width="40" Command="{Binding AddAuthorCommand}" IsEnabled="{Binding AddAuthorButtonEnabled}"/>
+            <Button Grid.Row="1" Grid.Column="1" x:Name="EditAuthorButton" Content="Edit" HorizontalAlignment="Center" Width="40" Command="{Binding EditAuthorCommand}" IsEnabled="{Binding EditAuthorButtonEnabled}"/>
+            <Button Grid.Row="1" Grid.Column="1" x:Name="DeleteAuthorButton" Content="Delete" HorizontalAlignment="Right" Width="40" Command="{Binding DeleteAuthorCommand}" IsEnabled="{Binding DeleteAuthorButtonEnabled}"/>
+            <Button Grid.Row="11" Grid.Column="1" x:Name="SaveAuthorButton" Content="Save" HorizontalAlignment="Center" Width="40" Command="{Binding SaveAuthorCommand}" IsEnabled="{Binding SaveAuthorButtonEnabled}"/>
+            <Button Grid.Row="2" Grid.Column="2" x:Name="ClearAuthorComboBox" Content="Clear" Command="{Binding ClearAuthorComboBoxCommand}" IsEnabled="{Binding ClearAuthorComboBoxEnabled}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        </Grid>
+    </Grid>
+</UserControl>

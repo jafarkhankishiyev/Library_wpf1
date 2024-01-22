@@ -78,3 +78,9 @@ C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\refint\L
 C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Library_wpf.pdb
 C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Library_wpf.genruntimeconfig.cache
 C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\ref\Library_wpf.dll
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AuthorView.g.cs
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\BookView.g.cs
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\GenreView.g.cs
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AuthorView.baml
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\BookView.baml
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\GenreView.baml

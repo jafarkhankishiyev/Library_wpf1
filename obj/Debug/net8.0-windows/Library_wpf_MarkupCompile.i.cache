@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\JafarKh\Documents\GitHub\Library_wpf1\App.xaml
-11407045341
+4108532609
 
-18-537604233
+211069321875
 202663186834
-MainWindow.xaml;
+MainWindow.xaml;Views\AuthorView.xaml;Views\BookView.xaml;Views\GenreView.xaml;
 
 True
 

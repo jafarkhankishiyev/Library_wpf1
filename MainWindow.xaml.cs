@@ -22,7 +22,8 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
+        string connectionString = "Server=localhost;User Id = postgres; Password = 123; Database=library";
         InitializeComponent();
-        DataContext = new MainViewModel(new BookDB(), new AuthorDB(), new GenreDB());
+        DataContext = new MainViewModel(new BookDB(connectionString), new AuthorDB(connectionString), new GenreDB(connectionString));
     }
 }

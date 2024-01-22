@@ -8,7 +8,6 @@ namespace Library_wpf.DB
 {
     public class DB
     {
-        protected readonly string _connectionstring = "Server=localhost;User Id = postgres; Password = 123; Database=library";
         protected static (string, string, string) TailorDB(string table, string columns, string insertParameters, string deleteColAndParam)
         {
             string readquery = $"SELECT {columns} FROM {table};";

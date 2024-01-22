@@ -13,6 +13,7 @@ using Library_wpf.Models;
 using System.Globalization;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Library_wpf.Views;
 
 namespace Library_wpf.ViewModelNameSpace
 {
@@ -52,8 +53,6 @@ namespace Library_wpf.ViewModelNameSpace
         private bool saveGenreButtonEnabled;
         private bool isAddAuthorButtonClicked;
         private bool isAddGenreButtonClicked;
-        private bool isDeleteAuthorButtonClicked;
-        private bool isDeleteGenreButtonClicked;
         private bool isEditAuthorButtonClicked;
         private bool isEditGenreButtonClicked;
         private bool isSaveAuthorButtonClicked;
@@ -113,6 +112,10 @@ namespace Library_wpf.ViewModelNameSpace
         private RelayCommand clearAuthorComboBoxCommand;
         private RelayCommand clearGenreComboBoxCommand;
         private RelayCommand searchByNameCommand;
+        private RelayCommand switchToBookViewCommand;
+        private RelayCommand switchToAuthorViewCommand;
+        private RelayCommand switchToGenreViewCommand;
+        private UserControl currentView;
         private Author selectedAuthorToFilter;
         private Genre selectedGenreToFilter;
         private string searchByNameText;
@@ -582,7 +585,10 @@ namespace Library_wpf.ViewModelNameSpace
         public RelayCommand ClearAuthorComboBoxCommand { get { return clearAuthorComboBoxCommand ?? (clearAuthorComboBoxCommand = new RelayCommand(obj => ClearAuthorComboBoxCommandMethod())); } }
         public RelayCommand ClearGenreComboBoxCommand { get { return clearGenreComboBoxCommand ?? (clearGenreComboBoxCommand = new RelayCommand(obj => ClearGenreComboBoxCommandMethod())); }}
         public RelayCommand SearchByNameCommand { get { return searchByNameCommand ?? (searchByNameCommand = new RelayCommand(obj => SearchByNameCommandMethod())); } }
-
+        public RelayCommand SwitchToBookViewCommand { get { return switchToBookViewCommand ?? (switchToBookViewCommand = new RelayCommand(obj => CurrentView = new BookView())); } }
+        public RelayCommand SwitchToAuthorViewCommand { get { return switchToAuthorViewCommand ?? (switchToAuthorViewCommand = new RelayCommand(obj => CurrentView = new AuthorView())); } }
+        public RelayCommand SwitchToGenreViewCommand { get { return switchToGenreViewCommand ?? (switchToGenreViewCommand = new RelayCommand(obj => CurrentView = new GenreView())); } }
+        public UserControl CurrentView { get { return currentView; } set { if (value != null) { currentView = value;  OnPropertyChanged("CurrentView"); } } }
 
         public bool isNameSortClicked = false;
         public bool isAuthorSortClicked = false;
@@ -601,6 +607,7 @@ namespace Library_wpf.ViewModelNameSpace
             AddButtonEnabled = true;
             AddGenreButtonEnabled = true;
             AddAuthorButtonEnabled = true;
+            CurrentView = new BookView();
         }
 
         //main methods

@@ -18,10 +18,12 @@ namespace Library_wpf.DB
         private readonly string _readquery;
         private readonly string _addquery;
         private readonly string _deletequery;
+        private readonly string _connectionstring;
 
         //constructor
-        public GenreDB()
+        public GenreDB(string connectionString)
         {
+            _connectionstring = connectionString;
             (_readquery, _addquery, _deletequery) = TailorDB(_table, _columns, _insertParameters, _deleteColAndParam);
         }
 
