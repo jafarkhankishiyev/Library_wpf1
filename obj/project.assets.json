@@ -230,19 +230,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Aboba\\.nuget\\packages\\": {}
+    "C:\\Users\\JafarKh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aboba\\Desktop\\Library\\Library2\\Library_wpf\\Library_wpf.csproj",
+      "projectUniqueName": "C:\\Users\\JafarKh\\Documents\\GitHub\\Library_wpf1\\Library_wpf.csproj",
       "projectName": "Library_wpf",
-      "projectPath": "C:\\Users\\Aboba\\Desktop\\Library\\Library2\\Library_wpf\\Library_wpf.csproj",
-      "packagesPath": "C:\\Users\\Aboba\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Aboba\\Desktop\\Library\\Library2\\Library_wpf\\obj\\",
+      "projectPath": "C:\\Users\\JafarKh\\Documents\\GitHub\\Library_wpf1\\Library_wpf.csproj",
+      "packagesPath": "C:\\Users\\JafarKh\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\JafarKh\\Documents\\GitHub\\Library_wpf1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Aboba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\JafarKh\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

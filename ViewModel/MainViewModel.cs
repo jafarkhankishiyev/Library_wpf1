@@ -484,17 +484,19 @@ namespace Library_wpf.ViewModelNameSpace
                 }
                 else if (selectedAuthorToFilter != AuthorListSource[0] && selectedGenreToFilter != GenreListSource[0])
                 {
-                    List<Book> bookListSourceMixFilter = BookListSource;
+                    FilterAuthorAndGenre();
+                } 
+                else if(selectedAuthorToFilter == AuthorListSource[0] && selectedGenreToFilter != GenreListSource[0]) 
+                {
                     BookListSource = new List<Book>();
-                    foreach(Book book in bookListSourceMixFilter)
+                    foreach (Book book in BookListSourceCopy)
                     {
-                        if(book.Author == selectedAuthorToFilter.Name)
+                        if (book.Genre == selectedGenreToFilter.Name)
                         {
                             BookListSource.Add(book);
                         }
                     }
-                } 
-                else if(selectedAuthorToFilter == AuthorListSource[0] && selectedGenreToFilter != GenreListSource[0]) { }
+                }
                 else
                 {
                     _ = GetBooks();                
@@ -519,19 +521,19 @@ namespace Library_wpf.ViewModelNameSpace
                 }
                 else if(selectedGenreToFilter != GenreListSource[0] && selectedAuthorToFilter != AuthorListSource[0])
                 {
-                    List<Book> bookListSourceMixFilter = BookListSource;
+                    FilterAuthorAndGenre();
+                } 
+                else if(selectedGenreToFilter == GenreListSource[0] && selectedAuthorToFilter != AuthorListSource[0]) 
+                {
                     BookListSource = new List<Book>();
-                    foreach (Book book in bookListSourceMixFilter)
+                    foreach (Book book in BookListSourceCopy)
                     {
-                        if (book.Genre == selectedGenreToFilter.Name)
+                        if (book.Author == selectedAuthorToFilter.Name)
                         {
                             BookListSource.Add(book);
                         }
                     }
-                } /*else if(selectedGenreToFilter == GenreListSource[0] && selectedAuthorToFilter != AuthorListSource[0])
-                {
-
-                }*/
+                }
                 else 
                 { 
                     _ = GetBooks(); 
@@ -546,6 +548,7 @@ namespace Library_wpf.ViewModelNameSpace
             }
         }
         public List<Book> BookListSourceCopy { get; set; }
+        public List<Book> BookListSourceMixFilter = new List<Book>();
         public List<Author> AuthorListSource { get { return authorListSource; } 
             set
             {
@@ -1087,7 +1090,37 @@ namespace Library_wpf.ViewModelNameSpace
         }
         private void SearchByNameCommandMethod()
         {
-            
+            if (SearchByNameText != "")
+            {
+                BookListSource = new List<Book>();
+                foreach (Book book in BookListSourceCopy) 
+                {
+                    if (book.Name.StartsWith(SearchByNameText))
+                    {
+                        BookListSource.Add(book);
+                    }
+                }
+            }
+            else
+            {
+                _ = GetBooks();
+            }
+        }
+        private async void FilterAuthorAndGenre()
+        {
+            await GetBooks();
+            if (BookListSourceMixFilter.Count == 0 && BookListSource.Count != 0)
+            {
+                BookListSourceMixFilter = BookListSource;
+            }
+            BookListSource = new List<Book>();
+            foreach (Book book in BookListSourceMixFilter)
+            {
+                if (book.Author == selectedAuthorToFilter.Name && book.Genre == SelectedGenreToFilter.Name)
+                {
+                    BookListSource.Add(book);
+                }
+            }
         }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
