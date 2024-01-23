@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Library_wpf.Models;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace Library_wpf.DB
 {
@@ -28,9 +30,9 @@ namespace Library_wpf.DB
         }
 
         //methods
-        public async Task<List<Author>> GetAuthorsAsync()
+        public async Task<ObservableCollection<Author>> GetAuthorsAsync()
         {
-            List<Author> authors = new List<Author>();
+            ObservableCollection<Author> authors = new ObservableCollection<Author>();
             Author defaultAuthor = new Author();
             defaultAuthor.Name = "Not Chosen";
             authors.Add(defaultAuthor);
@@ -43,7 +45,7 @@ namespace Library_wpf.DB
                 {
                     Author author = new Author();
                     author.Name = reader.GetString(0);
-                    author.Birthday = reader.GetDateTime(1);
+                    author.Birthday = reader.GetDateTime(1); 
                     author.Email = reader.GetString(2);
                     author.Mobile = reader.GetString(3);
                     authors.Add(author);

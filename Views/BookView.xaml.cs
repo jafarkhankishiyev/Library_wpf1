@@ -1,4 +1,5 @@
 ﻿using Library_wpf.DB;
+using Library_wpf.ViewModel;
 using Library_wpf.ViewModelNameSpace;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,10 @@ namespace Library_wpf.Views
     /// </summary>
     public partial class BookView : UserControl
     {
-        public BookView()
+        public BookView(BookViewModel bookViewModel)
         {
             InitializeComponent();
+            DataContext = bookViewModel;
         }
     }
 }

@@ -35,10 +35,10 @@
                 <RowDefinition Height="50"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <StackPanel Grid.RowSpan="4" Background="Gray">
-                <Button Background="Gray" Height="50" x:Name="BookViewButton" Grid.Row="0" Grid.Column="0" Content="Books" Command="{Binding SwitchToBookViewCommand}"/>
-                <Button Background="Gray" Height="50" x:Name="AuthorViewButton" Grid.Row="1" Grid.Column="0" Content="Authors" Command="{Binding SwitchToAuthorViewCommand}"/>
-                <Button Background="Gray" Height="50" x:Name="GenreViewButton" Grid.Row="2" Grid.Column="1" Content="Genres" Command="{Binding SwitchToGenreViewCommand}"/>
+            <StackPanel Grid.RowSpan="4" Background="LightBlue">
+                <Button Height="50" x:Name="BookViewButton" Grid.Row="0" Grid.Column="0" Content="Books" Command="{Binding SwitchToBookViewCommand}"/>
+                <Button Height="50" x:Name="AuthorViewButton" Grid.Row="1" Grid.Column="0" Content="Authors" Command="{Binding SwitchToAuthorViewCommand}"/>
+                <Button Height="50" x:Name="GenreViewButton" Grid.Row="2" Grid.Column="1" Content="Genres" Command="{Binding SwitchToGenreViewCommand}"/>
             </StackPanel>
 
         </Grid>

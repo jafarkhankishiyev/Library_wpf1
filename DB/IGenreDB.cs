@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library_wpf.DB
 {
-    internal interface IGenreDB
+    public interface IGenreDB
     {
         Task<List<Genre>> GetGenresAsync();
         Task<int> AddGenre(Genre genre);

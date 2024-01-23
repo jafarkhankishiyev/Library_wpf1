@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Library_wpf.ViewModelNameSpace
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Action<object> execute;
         private Func<object, bool> canExecute;

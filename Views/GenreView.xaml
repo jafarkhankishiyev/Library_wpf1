@@ -44,6 +44,7 @@
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Genre" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Gray"/>
             <TextBlock Grid.Row="5" Grid.Column="1" Text="Name" HorizontalAlignment="Center"/>
             <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding GenreNameWarningText}" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Red"/>
+            
 
             <Button Grid.Row="2" Grid.Column="1" x:Name="AddGenreButton" Content="Add" HorizontalAlignment="Left" Width="40" Command="{Binding AddGenreCommand}" IsEnabled="{Binding AddGenreButtonEnabled}"/>
             <Button Grid.Row="2" Grid.Column="1" x:Name="EditGenreButton" Content="Edit" HorizontalAlignment="Center" Width="40" Command="{Binding EditGenreCommand}" IsEnabled="{Binding EditGenreButtonEnabled}"/>
