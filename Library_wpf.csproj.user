@@ -2,10 +2,22 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Views\AddAuthorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\AddBookView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\AuthorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\BookView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EditAuthorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EditBookView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\GenreView.xaml.cs">
@@ -13,10 +25,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\AddAuthorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddBookView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\AuthorView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\BookView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\EditAuthorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\EditBookView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\GenreView.xaml">

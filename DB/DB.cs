@@ -8,10 +8,10 @@ namespace Library_wpf.DB
 {
     public class DB
     {
-        protected static (string, string, string) TailorDB(string table, string columns, string insertParameters, string deleteColAndParam)
+        protected static (string, string, string) TailorDB(string table, string addColumns, string readColumns, string insertParameters, string deleteColAndParam)
         {
-            string readquery = $"SELECT {columns} FROM {table};";
-            string addquery = $"INSERT INTO {table} ({columns}) VALUES ({insertParameters});";
+            string readquery = $"SELECT {readColumns} FROM {table};";
+            string addquery = $"INSERT INTO {table} ({addColumns}) VALUES ({insertParameters});";
             string deletequery = $"DELETE FROM {table} WHERE {deleteColAndParam};";
             return (readquery, addquery, deletequery);
         }

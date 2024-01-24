@@ -14,9 +14,10 @@ namespace Library_wpf.DB
     {
         //fields
         private readonly string _table = "authors";
-        private readonly string _columns = "name, birthday, email, mobile";
+        private readonly string _addColumns = "name, birthday, email, mobile";
+        private readonly string _readColumns = "name, birthday, email, mobile, id";
         private readonly string _insertParameters = "@AuthorName, @AuthorBirthday, @AuthorEmail, @AuthorMobile";
-        private readonly string _deleteColAndParam = "name=@AuthorToDelete";
+        private readonly string _deleteColAndParam = "id=@AuthorToDelete";
         private readonly string _readquery;
         private readonly string _addquery;
         private readonly string _deletequery;
@@ -25,7 +26,7 @@ namespace Library_wpf.DB
         //constructor
         public AuthorDB(string connectionstring)
         {
-            (_readquery, _addquery, _deletequery) = TailorDB(_table, _columns, _insertParameters, _deleteColAndParam);
+            (_readquery, _addquery, _deletequery) = TailorDB(_table, _addColumns, _readColumns, _insertParameters, _deleteColAndParam);
             _connectionstring = connectionstring;
         }
 
@@ -48,6 +49,7 @@ namespace Library_wpf.DB
                     author.Birthday = reader.GetDateTime(1); 
                     author.Email = reader.GetString(2);
                     author.Mobile = reader.GetString(3);
+                    author.Id = reader.GetInt32(4);
                     authors.Add(author);
                 }
             }
@@ -104,12 +106,12 @@ namespace Library_wpf.DB
                             editQuery += ", ";
                         }
                     }
-                    editQuery += " WHERE name=@AuthorName";
+                    editQuery += $" WHERE id={oldAuthor.Id}";
                 }
                 else
                 {
                     dataChoice = dataChoiceList[0];
-                    editQuery = $"UPDATE authors SET {dataChoice}=@DataUpdate WHERE name=@AuthorName";
+                    editQuery = $"UPDATE authors SET {dataChoice}=@DataUpdate WHERE id={oldAuthor.Id}";
                 }
                 await using var command5 = dataSource.CreateCommand(editQuery);
                 if (dataChoiceList.Count <= 1)
@@ -137,7 +139,6 @@ namespace Library_wpf.DB
                         }
                     }
                 }
-                command5.Parameters.AddWithValue("@AuthorName", oldAuthor.Name);
                 int number = await command5.ExecuteNonQueryAsync();
                 return number;
             }
@@ -150,7 +151,7 @@ namespace Library_wpf.DB
         {
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
             await using var command7 = dataSource.CreateCommand(_deletequery);
-            command7.Parameters.AddWithValue("@AuthorToDelete", author.Name);
+            command7.Parameters.AddWithValue("@AuthorToDelete", author.Id);
             int number = await command7.ExecuteNonQueryAsync();
             return number;
         }

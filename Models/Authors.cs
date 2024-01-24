@@ -13,6 +13,7 @@ namespace Library_wpf.Models
     public class Author : INotifyPropertyChanged
     {
         //fields
+        private int id;
         private string name;
         private string mobile;
         private string email;
@@ -20,6 +21,7 @@ namespace Library_wpf.Models
         private string birthdayString;
 
         //properties
+        public int Id { get { return id; } set { id = value; } }
         public string Name { get { return name; } set {  name = value; } }
         public string Mobile { get { return mobile; } set { mobile = value; } }
         public string Email { get { return email; } set { email = value; } }

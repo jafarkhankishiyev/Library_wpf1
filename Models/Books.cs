@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Library_wpf
 {
@@ -7,12 +8,18 @@ namespace Library_wpf
     {
 
         //fields
+        private int id;
         private string name;
         private string author;
         private string genre;
         private int release;
 
         //properties
+        public int Id
+        {
+            get { return id; }
+            set { id = value; OnPropertyChanged("Id"); }
+        }
         public string Name
         {
             get { return name; }

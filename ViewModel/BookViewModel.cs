@@ -1,6 +1,8 @@
 ﻿using Library_wpf.DB;
 using Library_wpf.Models;
 using Library_wpf.ViewModelNameSpace;
+using Library_wpf.Views;
+using Library_wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Library_wpf.ViewModel
 {
@@ -18,10 +21,9 @@ namespace Library_wpf.ViewModel
         private RelayCommand editBookCommand;
         private RelayCommand saveCommand;
         private RelayCommand sortByNameCommand;
-        private string nameText;
-        private string authorText;
-        private string genreText;
-        private string yearText;
+        private RelayCommand switchToAddBookViewCommand;
+        private RelayCommand switchToEditBookViewCommand;
+        private MainViewModel _mainViewModel;
         private bool saveButtonEnabled;
         private bool editButtonEnabled;
         private bool deleteButtonEnabled;
@@ -29,10 +31,7 @@ namespace Library_wpf.ViewModel
         private bool isAddBookButtonClicked;
         private bool isDeleteBookButtonClicked;
         private bool isEditBookButtonClicked;
-        private string nameWarningText;
-        private string authorWarningText;
-        private string genreWarningText;
-        private string yearWarningText;
+
         private bool isButton1Clicked;
         private bool authorFilterEnabled;
         private bool genreCheckBoxEnabled;
@@ -40,7 +39,7 @@ namespace Library_wpf.ViewModel
         private bool isGenreFilterChecked;
         private bool isAuthorFilterChecked;
         private bool dynamicVisGridEnabled;
-        private object selectedBook;
+        private Book selectedBook;
         private object selectedBookAuthor;
         private object selectedBookGenre;
         private RelayCommand sortByAuthorCommand;
@@ -58,8 +57,9 @@ namespace Library_wpf.ViewModel
         private List<Genre> genreListSource;
         private ObservableCollection<Author> authorListSource;
         private bool authorCheckBoxEnabled;
-
-        public BookViewModel(IBookDB bookDB, IGenreDB genreDB, IAuthorDB authorDB)
+        public RelayCommand SwitchToAddBookViewCommand { get { return switchToAddBookViewCommand ?? (switchToAddBookViewCommand = new RelayCommand(obj => _mainViewModel.CurrentView = new AddBookView(new AddBookViewModel(_bookDB, _authorDB, _genreDB, _mainViewModel)))); } }
+        public RelayCommand SwitchToEditBookViewCommand { get { return switchToEditBookViewCommand ?? (switchToEditBookViewCommand = new RelayCommand(obj => _mainViewModel.CurrentView = new EditBookView(new EditBookViewModel(_bookDB, _authorDB, _genreDB, SelectedBook, _mainViewModel)))); } }
+        public BookViewModel(IBookDB bookDB, IGenreDB genreDB, IAuthorDB authorDB, MainViewModel mainViewModel)
         {
             _authorDB = authorDB;
             _genreDB = genreDB;
@@ -68,6 +68,7 @@ namespace Library_wpf.ViewModel
             _ = GetGenres();
             _ = GetAuthors();
             AddButtonEnabled = true;
+            _mainViewModel = mainViewModel;
         }
         public ObservableCollection<Author> AuthorListSource
         {
@@ -99,75 +100,8 @@ namespace Library_wpf.ViewModel
         public List<Book> BookListSourceCopy { get; set; }
         public List<Book> BookListSourceMixFilter = new List<Book>();
 
-        public string NameText
-        {
-            get { return nameText; }
-            set
-            {
-                nameText = value;
-                OnPropertyChanged("NameText");
-            }
-        }
-        public string AuthorText
-        {
-            get { return authorText; }
-            set
-            {
-                authorText = value;
-                OnPropertyChanged("AuthorText");
-            }
-        }
-        public string GenreText
-        {
-            get { return genreText; }
-            set
-            {
-                genreText = value;
-                OnPropertyChanged("GenreText");
-            }
-        }
-        public string YearText
-        {
-            get { return yearText; }
-            set
-            {
-                yearText = value; OnPropertyChanged("YearText");
-            }
-        }
-        public string NameWarningText
-        {
-            get { return nameWarningText; }
-            set
-            {
-                nameWarningText = value; OnPropertyChanged("NameWarningText");
-            }
-        }
-        public string AuthorWarningText
-        {
-            get { return authorWarningText; }
-            set
-            {
-                authorWarningText = value; OnPropertyChanged("AuthorWarningText");
-            }
-        }
-        public string GenreWarningText
-        {
-            get { return genreWarningText; }
-            set
-            {
-                genreWarningText = value;
-                OnPropertyChanged("GenreWarningText");
-            }
-        }
-        public string YearWarningText
-        {
-            get { return yearWarningText; }
-            set
-            {
-                yearWarningText = value;
-                OnPropertyChanged("YearWarningText");
-            }
-        }
+
+
         public string SearchByNameText { get { return searchByNameText; } set { searchByNameText = value; OnPropertyChanged("SearchByNameText"); } }
         public bool AddButtonEnabled
         {
@@ -214,7 +148,7 @@ namespace Library_wpf.ViewModel
                 OnPropertyChanged("DynamicVisGridEnabled");
             }
         }
-        public object SelectedBook
+        public Book SelectedBook
         {
             get { return selectedBook; }
             set
@@ -222,7 +156,6 @@ namespace Library_wpf.ViewModel
                 selectedBook = value;
                 if (selectedBook == null)
                 {
-                    ClearBookText();
                     AddButtonEnabled = true;
                     EditButtonEnabled = false;
                     DeleteButtonEnabled = false;
@@ -234,47 +167,6 @@ namespace Library_wpf.ViewModel
                     DeleteButtonEnabled = true;
                 }
                 OnPropertyChanged("SelectedBook");
-            }
-        }
-        public object SelectedBookAuthor
-        {
-            get { return selectedBookAuthor; }
-            set
-            {
-                selectedBookAuthor = value;
-                OnPropertyChanged("SelectedBookAuthor");
-                if (isAddBookButtonClicked || isEditBookButtonClicked)
-                {
-                    if (selectedBookAuthor == AuthorListSource[0] || selectedBookGenre == GenreListSource[0])
-                    {
-                        SaveButtonEnabled = false;
-                    }
-                    else
-                    {
-                        SaveButtonEnabled = true;
-                    }
-                }
-            }
-        }
-        public object SelectedBookGenre
-        {
-            get { return selectedBookGenre; }
-            set
-            {
-                selectedBookGenre = value;
-                OnPropertyChanged("SelectedBookGenre");
-                if (isAddBookButtonClicked || isEditBookButtonClicked)
-                {
-
-                    if (selectedBookGenre == GenreListSource[0] || SelectedBookAuthor == AuthorListSource[0])
-                    {
-                        SaveButtonEnabled = false;
-                    }
-                    else
-                    {
-                        SaveButtonEnabled = true;
-                    }
-                }
             }
         }
         public Author SelectedAuthorToFilter
@@ -357,10 +249,7 @@ namespace Library_wpf.ViewModel
         }
         public bool IsAuthorFilterChecked { get { return isAuthorFilterChecked; } set { isAuthorFilterChecked = value; OnPropertyChanged("IsAuthorFilterChecked"); if (!authorCheckBoxEnabled) { SelectedAuthorToFilter = AuthorListSource[0]; } } }
         public bool IsGenreFilterChecked { get { return isGenreFilterChecked; } set { isGenreFilterChecked = value; OnPropertyChanged("IsGenreFilterChecked"); SelectedGenreToFilter = GenreListSource[0]; } }
-        public RelayCommand AddBookCommand { get { return addBookCommand ?? (addBookCommand = new RelayCommand(obj => AddBookCommandMethod())); } }
         public RelayCommand DeleteBookCommand { get { return deleteBookCommand ?? (deleteBookCommand = new RelayCommand(obj => DeleteBookCommandMethod())); } }
-        public RelayCommand EditBookCommand { get { return editBookCommand ?? (editBookCommand = new RelayCommand(obj => EditBookCommandMethod())); } }
-        public RelayCommand SaveCommand { get { return saveCommand ?? (saveCommand = new RelayCommand(obj => SaveCommandMethod())); } }
         public RelayCommand SortByNameCommand { get { return sortByNameCommand ?? (sortByNameCommand = new RelayCommand(obj => SortByNameCommandMethod())); } }
         public RelayCommand SortByAuthorCommand { get { return sortByAuthorCommand ?? (sortByAuthorCommand = new RelayCommand(obj => SortByAuthorCommandMethod())); } }
         public RelayCommand SortByGenreCommand { get { return sortByGenreCommand ?? (sortByGenreCommand = new RelayCommand(obj => SortByGenreCommandMethod())); } }
@@ -386,49 +275,7 @@ namespace Library_wpf.ViewModel
             GenreListSource = await _genreDB.GetGenresAsync();
             SelectedGenreToFilter = GenreListSource[0];
         }
-        public void ClearBookText()
-        {
-            NameWarningText = string.Empty;
-            AuthorWarningText = string.Empty;
-            GenreWarningText = string.Empty;
-            YearWarningText = string.Empty;
-            NameText = string.Empty;
-            AuthorText = string.Empty;
-            GenreText = string.Empty;
-            YearText = string.Empty;
-        }
-        public int ValidateBook(Book book)
-        {
-            NameWarningText = string.Empty;
-            AuthorWarningText = string.Empty;
-            GenreWarningText = string.Empty;
-            YearWarningText = string.Empty;
-            if (string.IsNullOrWhiteSpace(book.Name))
-            {
-                NameWarningText = "*fill the name field";
-                return 2;
-            }
-            else if (string.IsNullOrWhiteSpace(book.Author))
-            {
-                AuthorWarningText = "*fill the author field";
-                return 3;
-            }
-            else if (string.IsNullOrEmpty(book.Genre))
-            {
-                GenreWarningText = "*fill the genre field";
-                return 4;
-            }
-            else if (book.Release == 0)
-            {
-                YearWarningText = "*fill the year field with YYYY (e.g. 1984)";
-                return 5;
-            }
-            else
-            {
-                return 1;
-            }
-        }
-        public async void SaveCommandMethod()
+        /*public async void SaveCommandMethod()
         {
             isButton1Clicked = true;
             Book book = new Book();
@@ -472,14 +319,16 @@ namespace Library_wpf.ViewModel
                 SaveButtonEnabled = false;
                 ClearBookGenreComboBox();
                 ClearBookAuthorComboBox();
+                CurrentView = new BookView(this);
             }
             else
             {
                 isButton1Clicked = false;
             }
-        }
-        public void EditBookCommandMethod()
+        }*/
+        /*public void EditBookCommandMethod()
         {
+            CurrentView = new AddBookView(new AddBookViewModel());
             isEditBookButtonClicked = true;
             isAddBookButtonClicked = false;
             DynamicVisGridEnabled = true;
@@ -504,27 +353,21 @@ namespace Library_wpf.ViewModel
             }
             NameText = oldBook.Name;
             YearText = oldBook.Release.ToString();
-        }
+        }*/
         public async void DeleteBookCommandMethod()
         {
             if (SelectedBook != null)
             {
-                int deleteResult = 0;
                 DynamicVisGridEnabled = false;
-                ClearBookText();
-                deleteResult = await _bookDB.DeleteBook(SelectedBook as Book);
-                DeleteButtonEnabled = false;
-                EditButtonEnabled = false;
-                _ = GetBooks();
-                MessageBox.Show($"Deleted {deleteResult} object(s).");
+                if(MessageBox.Show($"Are you sure you want to delete {SelectedBook.Name} from books?", "Delete Book", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    int deleteResult = await _bookDB.DeleteBook(SelectedBook);
+                    DeleteButtonEnabled = false;
+                    EditButtonEnabled = false;
+                    _ = GetBooks();
+                    MessageBox.Show($"Deleted {deleteResult} object(s).");
+                }
             }
-        }
-        public void AddBookCommandMethod()
-        {
-            ClearBookText();
-            DynamicVisGridEnabled = true;
-            isAddBookButtonClicked = true;
-            isEditBookButtonClicked = false;
         }
         public void SortByNameCommandMethod()
         {
@@ -547,7 +390,7 @@ namespace Library_wpf.ViewModel
         }
         private void SearchByNameCommandMethod()
         {
-            if (SearchByNameText != "")
+            if (SearchByNameText != "" && SearchByNameText != null)
             {
                 BookListSource = new List<Book>();
                 foreach (Book book in BookListSourceCopy)
@@ -638,12 +481,10 @@ namespace Library_wpf.ViewModel
         }
         public void ClearBookGenreComboBox()
         {
-            SelectedBookGenre = GenreListSource[0];
             SelectedGenreToFilter = GenreListSource[0];
         }
         public void ClearBookAuthorComboBox()
         {
-            SelectedBookAuthor = AuthorListSource[0];
             SelectedAuthorToFilter = AuthorListSource[0];
         }
     }

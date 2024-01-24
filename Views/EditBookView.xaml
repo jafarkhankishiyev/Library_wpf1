@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Library_wpf.Views.EditBookView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library_wpf.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="600"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" Width="550" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <ComboBox Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" Width="180" x:Name="AuthorBookComboBox" ItemsSource="{Binding AuthorListSource}" SelectedItem="{Binding SelectedBookAuthor}" DisplayMemberPath="Name" />
+            <ComboBox Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="1" Width="180" HorizontalAlignment="Right" x:Name="GenreBookComboBox" ItemsSource="{Binding GenreListSource}" SelectedItem="{Binding SelectedBookGenre}" DisplayMemberPath="Name"/>
+            <Button Grid.Row="4" Grid.RowSpan="2" Grid.Column ="1" Grid.ColumnSpan="1" x:Name ="Button1" Content="Save" FontSize="13" Width="85" Height="30" Command="{Binding SaveCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding SaveButtonEnabled}">
+                <Button.Background>
+                    <SolidColorBrush Opacity="0.5" Color="Blue"/>
+                </Button.Background>
+            </Button>
+
+            <TextBox Grid.Column="0" Grid.Row="1" x:Name="nameTextBox" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Right" Width="180" Text="{Binding NameText}"/>
+            <TextBox Grid.Column="2" Grid.Row="3" x:Name="yearTextBox" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Right" Width="180"  Text="{Binding YearText}"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="2" x:Name="genreTextBlock"  VerticalAlignment="Center" HorizontalAlignment="Left">Genre:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0" x:Name="authorTextBlock" VerticalAlignment="Center" HorizontalAlignment="Left">Author:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1" x:Name="nameTextBlock" VerticalAlignment="Center" HorizontalAlignment="Left">Title:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="2" x:Name="yearTextBlock" VerticalAlignment="Center" HorizontalAlignment="Left" >Year:</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="BookTextBlock" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Book" FontWeight="Bold" Background="Gray"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="nameWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding NameWarningText}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" x:Name="authorWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding AuthorWarningText}"/>
+            <TextBlock Grid.Row="0" Grid.Column="3" x:Name="genreWarningTextBlock" VerticalAlignment="Bottom" Foreground="Red" FontSize="12" Text="{Binding GenreWarningText}"/>
+            <TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" x:Name="yearWarningTextBlock" VerticalAlignment="Bottom"  Foreground="Red" FontSize="12" Text="{Binding YearWarningText}"/>
+
+        </Grid>
+    </Grid>
+</UserControl>

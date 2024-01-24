@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Library_wpf.DB
 {
@@ -12,9 +13,10 @@ namespace Library_wpf.DB
     {
         //fields
         private readonly string _table = "genres";
-        private readonly string _columns = "name";
+        private readonly string _addColumns = "name";
+        private readonly string _readColumns = "name, id";
         private readonly string _insertParameters = "@GenreName";
-        private readonly string _deleteColAndParam = "name=@GenreToDelete";
+        private readonly string _deleteColAndParam = "id=@id";
         private readonly string _readquery;
         private readonly string _addquery;
         private readonly string _deletequery;
@@ -24,7 +26,7 @@ namespace Library_wpf.DB
         public GenreDB(string connectionString)
         {
             _connectionstring = connectionString;
-            (_readquery, _addquery, _deletequery) = TailorDB(_table, _columns, _insertParameters, _deleteColAndParam);
+            (_readquery, _addquery, _deletequery) = TailorDB(_table, _addColumns, _readColumns, _insertParameters, _deleteColAndParam);
         }
 
         //methods
@@ -43,6 +45,7 @@ namespace Library_wpf.DB
                 {
                     Genre genre = new Genre();
                     genre.Name = reader.GetString(0);
+                    genre.Id = reader.GetInt32(1);
                     genres.Add(genre);
                 }
             }
@@ -68,10 +71,9 @@ namespace Library_wpf.DB
             { 
                 string editQuery = "";
                 string dataChoice = "name";
-                editQuery = $"UPDATE genres SET {dataChoice}=@DataUpdate WHERE name=@GenreName";
+                editQuery = $"UPDATE genres SET {dataChoice}=@DataUpdate WHERE id={oldGenre.Id}";
                 await using var command5 = dataSource.CreateCommand(editQuery);
                 command5.Parameters.AddWithValue("@DataUpdate", dataUpdate);
-                command5.Parameters.AddWithValue("@GenreName", oldGenre.Name);
                 int number = await command5.ExecuteNonQueryAsync();
                 return number;
             }
@@ -84,7 +86,8 @@ namespace Library_wpf.DB
         {
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
             await using var command7 = dataSource.CreateCommand(_deletequery);
-            command7.Parameters.AddWithValue("@GenreToDelete", genre.Name);
+            command7.Parameters.AddWithValue("@id", genre.Id);
+            MessageBox.Show(command7.CommandText);
             int number = await command7.ExecuteNonQueryAsync();
             return number;
         }

@@ -13,9 +13,10 @@ namespace Library_wpf.DB
     {
         //fields
         private readonly string _table = "books";
-        private readonly string _columns = "name, author, genre, released";
+        private readonly string _readColumns = "name, author, genre, released, id";
+        private readonly string _addColumns = "name, author, genre, released";
         private readonly string _insertParameters = "@BookName, @BookAuthor, @BookGenre, @BookYear";
-        private readonly string _deleteColAndParam = "name=@BookToDelete";
+        private readonly string _deleteColAndParam = "id=@BookToDelete";
         private readonly string _readquery;
         private readonly string _addquery;
         private readonly string _deletequery;
@@ -24,7 +25,7 @@ namespace Library_wpf.DB
         //constructor
         public BookDB(string connectionstring)
         {
-            (_readquery, _addquery, _deletequery) = TailorDB(_table, _columns, _insertParameters, _deleteColAndParam);
+            (_readquery, _addquery, _deletequery) = TailorDB(_table, _addColumns, _readColumns, _insertParameters, _deleteColAndParam);
             _connectionstring = connectionstring;
         }
 
@@ -44,6 +45,7 @@ namespace Library_wpf.DB
                     book.Author = reader.GetString(1);
                     book.Genre = reader.GetString(2);
                     book.Release = reader.GetInt32(3);
+                    book.Id = reader.GetInt32(4);
                     books.Add(book);
                 }
             }
@@ -100,12 +102,12 @@ namespace Library_wpf.DB
                             editQuery += ", ";
                         }
                     }
-                    editQuery += " WHERE name=@BookName";
+                    editQuery += $" WHERE id={oldBook.Id}";
                 }
                 else
                 {
                     dataChoice = dataChoiceList[0];
-                    editQuery = $"UPDATE books SET {dataChoice}=@DataUpdate WHERE name=@BookName";
+                    editQuery = $"UPDATE books SET {dataChoice}=@DataUpdate WHERE id={oldBook.Id}";
                 }
                 await using var command5 = dataSource.CreateCommand(editQuery);
                 if (dataChoiceList.Count <= 1)
@@ -133,7 +135,6 @@ namespace Library_wpf.DB
                         }     
                     }
                 }
-                command5.Parameters.AddWithValue("@BookName", oldBook.Name);
                 int number = await command5.ExecuteNonQueryAsync();
                 return number;
             }
@@ -146,7 +147,7 @@ namespace Library_wpf.DB
         {
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
             await using var command7 = dataSource.CreateCommand(_deletequery);
-            command7.Parameters.AddWithValue("@BookToDelete", book.Name);
+            command7.Parameters.AddWithValue("@BookToDelete", book.Id);
             int number = await command7.ExecuteNonQueryAsync();
             return number;
         }

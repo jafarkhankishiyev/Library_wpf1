@@ -49,7 +49,10 @@
             <Button Grid.Row="2" Grid.Column="1" x:Name="AddGenreButton" Content="Add" HorizontalAlignment="Left" Width="40" Command="{Binding AddGenreCommand}" IsEnabled="{Binding AddGenreButtonEnabled}"/>
             <Button Grid.Row="2" Grid.Column="1" x:Name="EditGenreButton" Content="Edit" HorizontalAlignment="Center" Width="40" Command="{Binding EditGenreCommand}" IsEnabled="{Binding EditGenreButtonEnabled}"/>
             <Button Grid.Row="2" Grid.Column="1" x:Name="DeleteGenreButton" Content="Delete" HorizontalAlignment="Right" Width="40" Command="{Binding DeleteGenreCommand}" IsEnabled="{Binding DeleteGenreButtonEnabled}"/>
-            <Button Grid.Row="7" Grid.Column="1" x:Name="SaveGenreButton" Content="Save" Width="40" Command="{Binding SaveGenreCommand}" IsEnabled="{Binding SaveGenreButtonEnabled}"/>
+            <Button Grid.Row="7" Grid.Column="1" x:Name="SaveGenreButton" Content="Save" Width="40" Command="{Binding SaveGenreCommand}" IsEnabled="{Binding SaveGenreButtonEnabled}">
+                <Button.Background>
+                    <SolidColorBrush Color="Blue" Opacity="0.5"/>
+                </Button.Background></Button>
 
             <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GenreListSource}" SelectedItem="{Binding SelectedGenre}" DisplayMemberPath="Name"/>
 

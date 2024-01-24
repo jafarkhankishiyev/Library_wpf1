@@ -11,6 +11,7 @@ namespace Library_wpf.Models
     public class Genre : INotifyPropertyChanged
     {
         private string name;
+        private int id;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -21,6 +22,7 @@ namespace Library_wpf.Models
                 OnPropertyChanged("Name");
             } 
         }
+        public int Id { get; set; }
         public Genre() 
         {
             name = "Unkown";

@@ -1,6 +1,7 @@
 ﻿using Library_wpf.DB;
 using Library_wpf.Models;
 using Library_wpf.ViewModelNameSpace;
+using Library_wpf.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,11 +15,7 @@ namespace Library_wpf.ViewModel
 {
     public class AuthorViewModel : BaseViewModel
     {
-        private string authorNameText;
-        private string genreNameText;
-        private string authorBirthdayText;
-        private string authorEmailText;
-        private string authorMobileText;
+        private MainViewModel _mainViewModel;
         private bool addAuthorButtonEnabled;
         private bool deleteAuthorButtonEnabled;
         private bool editAuthorButtonEnabled;
@@ -26,24 +23,31 @@ namespace Library_wpf.ViewModel
         private bool isEditAuthorButtonClicked;
         private bool isAddAuthorButtonClicked;
         private bool isSaveAuthorButtonClicked;
-        private string authorNameWarningText;
-        private string authorMobileWarningText;
-        private string authorEmailWarningText;
-        private string authorBirthdayWarningText;
         private bool authorNameTextBoxEnabled;
         private bool authorMobileTextBoxEnabled;
         private bool authorEmailTextBoxEnabled;
         private bool authorBirthdayTextBoxEnabled;
         private bool clearAuthorComboBoxEnabled;
         private bool authorCheckBoxEnabled;
-        private object selectedAuthor;
+        private Author selectedAuthor;
         private RelayCommand addAuthorCommand;
         private RelayCommand editAuthorCommand;
         private RelayCommand deleteAuthorCommand;
         private RelayCommand saveAuthorCommand;
         private RelayCommand clearAuthorComboBoxCommand;
+        private RelayCommand switchToAddAuthorViewCommand;
+        private RelayCommand switchToEditAuthorViewCommand;
         private IAuthorDB _authorDB;
         private ObservableCollection<Author> authorListSource;
+
+        public AuthorViewModel(IAuthorDB authorDB, MainViewModel mainViewModel) 
+        {
+            _authorDB = authorDB;
+            _ = GetAuthors();
+            AddAuthorButtonEnabled = true;
+            _mainViewModel = mainViewModel;
+        }
+
         public ObservableCollection<Author> AuthorListSource
         {
             get { return authorListSource; }
@@ -51,85 +55,6 @@ namespace Library_wpf.ViewModel
             {
                 authorListSource = value;
                 OnPropertyChanged("AuthorListSource");
-            }
-        }
-
-        public AuthorViewModel(IAuthorDB authorDB) 
-        {
-            _authorDB = authorDB;
-            _ = GetAuthors();
-            AddAuthorButtonEnabled = true;
-        }
-        public string AuthorNameText
-        {
-            get { return authorNameText; }
-            set
-            {
-                authorNameText = value;
-                OnPropertyChanged("AuthorNameText");
-            }
-        }
-        public string AuthorBirthdayText
-        {
-            get { return authorBirthdayText; }
-            set
-            {
-                authorBirthdayText = value;
-                OnPropertyChanged("AuthorBirthdayText");
-            }
-        }
-        public string AuthorMobileText
-        {
-            get { return authorMobileText; }
-            set
-            {
-                authorMobileText = value;
-                OnPropertyChanged("AuthorMobileText");
-            }
-        }
-        public string AuthorEmailText
-        {
-            get { return authorEmailText; }
-            set
-            {
-                authorEmailText = value;
-                OnPropertyChanged("AuthorEmailText");
-            }
-        }
-        public string AuthorNameWarningText
-        {
-            get { return authorNameWarningText; }
-            set
-            {
-                authorNameWarningText = value;
-                OnPropertyChanged("AuthorNameWarningText");
-            }
-        }
-        public string AuthorEmailWarningText
-        {
-            get { return authorEmailWarningText; }
-            set
-            {
-                authorEmailWarningText = value;
-                OnPropertyChanged("AuthorEmailWarningText");
-            }
-        }
-        public string AuthorMobileWarningText
-        {
-            get { return authorMobileWarningText; }
-            set
-            {
-                authorMobileWarningText = value;
-                OnPropertyChanged("AuthorMobileWarningText");
-            }
-        }
-        public string AuthorBirthdayWarningText
-        {
-            get { return authorBirthdayWarningText; }
-            set
-            {
-                authorBirthdayWarningText = value;
-                OnPropertyChanged("AuthorBirthdayWarningText");
             }
         }
         public bool AddAuthorButtonEnabled
@@ -173,11 +98,11 @@ namespace Library_wpf.ViewModel
         public bool AuthorEmailTextBoxEnabled { get { return authorEmailTextBoxEnabled; } set { authorEmailTextBoxEnabled = value; OnPropertyChanged("AuthorEmailTextBoxEnabled"); } }
         public bool AuthorBirthdayTextBoxEnabled { get { return authorBirthdayTextBoxEnabled; } set { authorBirthdayTextBoxEnabled = value; OnPropertyChanged("AuthorBirthdayTextBoxEnabled"); } }
         public bool AuthorMobileTextBoxEnabled { get { return authorMobileTextBoxEnabled; } set { authorMobileTextBoxEnabled = value; OnPropertyChanged("AuthorMobileTextBoxEnabled"); } }
-        public RelayCommand SaveAuthorCommand { get { return saveAuthorCommand ?? (saveAuthorCommand = new RelayCommand(obj => SaveAuthorCommandMethod())); } }
-        public RelayCommand EditAuthorCommand { get { return editAuthorCommand ?? (editAuthorCommand = new RelayCommand(obj => EditAuthorCommandMethod())); } }
-        public RelayCommand AddAuthorCommand { get { return addAuthorCommand ?? (addAuthorCommand = new RelayCommand(obj => AddAuthorCommandMethod())); } }
+        public RelayCommand EditAuthorCommand { get { return editAuthorCommand; } }
+        public RelayCommand SwitchToAddAuthorViewCommand { get { return switchToAddAuthorViewCommand ?? (switchToAddAuthorViewCommand = new RelayCommand(obj => _mainViewModel.CurrentView = new AddAuthorView(new AddAuthorViewModel(_authorDB, _mainViewModel)))); } }
+        public RelayCommand SwitchToEditAuthorViewCommand { get { return switchToEditAuthorViewCommand ?? (switchToEditAuthorViewCommand = new RelayCommand(obj => _mainViewModel.CurrentView = new EditAuthorView(new EditAuthorViewModel(_authorDB, SelectedAuthor, _mainViewModel)))); } }
         public RelayCommand DeleteAuthorCommand { get { return deleteAuthorCommand ?? (deleteAuthorCommand = new RelayCommand(obj => DeleteAuthorCommandMethod())); } }
-        public object SelectedAuthor
+        public Author SelectedAuthor
         {
             get { return selectedAuthor; }
             set
@@ -205,7 +130,7 @@ namespace Library_wpf.ViewModel
             AuthorListSource = await _authorDB.GetAuthorsAsync();
             AuthorListSource.Remove(AuthorListSource[0]);
         }
-        public int ValidateAuthor(Author author)
+        /*public int ValidateAuthor(Author author)
         {
             AuthorNameWarningText = string.Empty;
             AuthorEmailWarningText = string.Empty;
@@ -235,17 +160,6 @@ namespace Library_wpf.ViewModel
             {
                 return 1;
             }
-        }
-        public void ClearAuthorText()
-        {
-            AuthorNameText = string.Empty;
-            AuthorBirthdayText = string.Empty;
-            AuthorMobileText = string.Empty;
-            AuthorEmailText = string.Empty;
-            AuthorBirthdayWarningText = string.Empty;
-            AuthorMobileWarningText = string.Empty;
-            AuthorEmailWarningText = string.Empty;
-            AuthorBirthdayWarningText = string.Empty;
         }
         public async void SaveAuthorCommandMethod()
         {
@@ -285,6 +199,7 @@ namespace Library_wpf.ViewModel
                 SaveAuthorButtonEnabled = false;
                 AddAuthorButtonEnabled = true;
                 ClearAuthorText();
+                CurrentView = new AuthorView(this);
             }
             else
             {
@@ -293,6 +208,7 @@ namespace Library_wpf.ViewModel
         }
         public void EditAuthorCommandMethod()
         {
+            //CurrentView = new AddAuthorView(_mainViewModel);
             Author selectedAuthor = SelectedAuthor as Author;
             AuthorNameText = selectedAuthor.Name;
             AuthorEmailText = selectedAuthor.Email;
@@ -309,6 +225,7 @@ namespace Library_wpf.ViewModel
         }
         public void AddAuthorCommandMethod()
         {
+            //CurrentView = new AddAuthorView(this);
             ClearAuthorText();
             AuthorNameTextBoxEnabled = true;
             AuthorEmailTextBoxEnabled = true;
@@ -317,13 +234,15 @@ namespace Library_wpf.ViewModel
             isAddAuthorButtonClicked = true;
             isEditAuthorButtonClicked = false;
             SaveAuthorButtonEnabled = true;
-        }
+        }*/
         public async void DeleteAuthorCommandMethod()
         {
-            Author selectedAuthor = SelectedAuthor as Author;
-            int result = await _authorDB.DeleteAuthor(selectedAuthor);
-            _ = GetAuthors();
-            MessageBox.Show($"Deleted {result} author.");
+            if(MessageBox.Show($"Are you sure you want to delete {SelectedAuthor.Name} from authors?", "Delete Author", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                int result = await _authorDB.DeleteAuthor(SelectedAuthor);
+                _ = GetAuthors();
+                MessageBox.Show($"Deleted {result} author.");
+            }
         }
     }
 }

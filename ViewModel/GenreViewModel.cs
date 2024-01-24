@@ -13,7 +13,7 @@ namespace Library_wpf.ViewModel
     public class GenreViewModel : BaseViewModel
     {
         private bool addGenreButtonEnabled;
-        private object selectedGenre;
+        private Genre selectedGenre;
         private bool deleteGenreButtonEnabled;
         private bool editGenreButtonEnabled;
         private bool saveGenreButtonEnabled;
@@ -104,7 +104,7 @@ namespace Library_wpf.ViewModel
         }
         public bool ClearGenreComboBoxEnabled { get { return clearGenreComboBoxEnabled; } set { clearGenreComboBoxEnabled = value; OnPropertyChanged("ClearGenreComboBoxEnabled"); } }
         public bool GenreNameTextBoxEnabled { get { return genreNameTextBoxEnabled; } set { genreNameTextBoxEnabled = value; OnPropertyChanged("GenreNameTextBoxEnabled"); } }
-        public object SelectedGenre
+        public Genre SelectedGenre
         {
             get { return selectedGenre; }
             set
@@ -207,11 +207,13 @@ namespace Library_wpf.ViewModel
         }
         public async void DeleteGenreCommandMethod()
         {
-            Genre selectedGenre = SelectedGenre as Genre;
-            int result = await _genreDB.DeleteGenre(selectedGenre);
-            _ = GetGenres();
+            if(MessageBox.Show($"Are you sure you want to delete {SelectedGenre.Name} from genres?", "Delete Genre", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+            int result = await _genreDB.DeleteGenre(SelectedGenre);
             MessageBox.Show($"Deleted {result} genre.");
             ClearGenreComboBoxCommandMethod();
+            _ = GetGenres();
+            }
         }
         public void ClearGenreComboBoxCommandMethod()
         {
@@ -219,6 +221,5 @@ namespace Library_wpf.ViewModel
             ClearGenreText();
             SelectedGenre = GenreListSource[0];
         }
-
     }
 }

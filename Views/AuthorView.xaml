@@ -63,28 +63,11 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="Author" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Gray"/>
-
-            <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Name, Surname" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="1" Text="Mobile" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="Email" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Text="Birthday" HorizontalAlignment="Center"/>
-
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding AuthorNameWarningText}" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Red"/>
-            <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding AuthorMobileWarningText}" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="Red"/>
-            <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding AuthorEmailWarningText}" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="Red"/>
-            <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding AuthorBirthdayWarningText}" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="Red"/>
-
-            <TextBox x:Name="AuthorNameTextBox" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="170" Text="{Binding AuthorNameText}" IsEnabled="{Binding AuthorNameTextBoxEnabled}"/>
-            <TextBox x:Name="AuthorMobileTextBox" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="170" Text="{Binding AuthorMobileText}" IsEnabled="{Binding AuthorMobileTextBoxEnabled}"/>
-            <TextBox x:Name="AuthorEmailTextBox" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Width="170" Text="{Binding AuthorEmailText}" IsEnabled="{Binding AuthorEmailTextBoxEnabled}"/>
-            <TextBox x:Name="AuthorBirthdayTextBox" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Width="170" Text="{Binding AuthorBirthdayText}" IsEnabled="{Binding AuthorBirthdayTextBoxEnabled}"/>
-
-            <Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" x:Name="AddAuthorButton" Content="Add" Width="40" Command="{Binding AddAuthorCommand}" IsEnabled="{Binding AddAuthorButtonEnabled}"/>
-            <Button Grid.Row="2" Grid.Column="2" x:Name="EditAuthorButton" Content="Edit" HorizontalAlignment="Right" Width="40" Command="{Binding EditAuthorCommand}" IsEnabled="{Binding EditAuthorButtonEnabled}"/>
-            <Button Grid.Row="4" Grid.Column="2" x:Name="DeleteAuthorButton" Content="Delete" HorizontalAlignment="Right" Width="40" Command="{Binding DeleteAuthorCommand}" IsEnabled="{Binding DeleteAuthorButtonEnabled}"/>
-            <Button Grid.Row="7" Grid.Column="2" x:Name="SaveAuthorButton" Content="Save" HorizontalAlignment="Right" Width="40" Command="{Binding SaveAuthorCommand}" IsEnabled="{Binding SaveAuthorButtonEnabled}"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="Author" FontWeight="Bold" Background="Gray" HorizontalAlignment="Center"/>
+            <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" x:Name="AddAuthorButton" Content="Add" Width="85" Command="{Binding SwitchToAddAuthorViewCommand}" IsEnabled="{Binding AddAuthorButtonEnabled}"/>
+            <Button Grid.Row="3" Grid.Column="1" x:Name="EditAuthorButton" Content="Edit" HorizontalAlignment="Center" Width="85" Command="{Binding SwitchToEditAuthorViewCommand}" IsEnabled="{Binding EditAuthorButtonEnabled}"/>
+            <Button Grid.Row="3" Grid.Column="1" x:Name="DeleteAuthorButton" Content="Delete" HorizontalAlignment="Right" Width="85" Command="{Binding DeleteAuthorCommand}" IsEnabled="{Binding DeleteAuthorButtonEnabled}"/>
+            
         </Grid>
     </Grid>
 </UserControl>
