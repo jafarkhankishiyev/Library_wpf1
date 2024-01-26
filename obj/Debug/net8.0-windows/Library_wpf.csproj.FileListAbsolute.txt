@@ -84,11 +84,7 @@ C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\Ge
 C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AuthorView.baml
 C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\BookView.baml
 C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\GenreView.baml
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddAuthorView.g.cs
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddBookView.g.cs
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\EditAuthorView.g.cs
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\EditBookView.g.cs
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddAuthorView.baml
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddBookView.baml
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\EditAuthorView.baml
-C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\EditBookView.baml
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddEditBookView.g.cs
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddEditBookView.baml
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddEditAuthorView.g.cs
+C:\Users\JafarKh\Documents\GitHub\Library_wpf1\obj\Debug\net8.0-windows\Views\AddEditAuthorView.baml

@@ -19,7 +19,6 @@ namespace Library_wpf.ViewModel
         private bool saveGenreButtonEnabled;
         private bool isAddGenreButtonClicked;
         private bool isEditGenreButtonClicked;
-        private bool isSaveGenreButtonClicked;
         private string genreNameWarningText;
         private bool genreNameTextBoxEnabled;
         private bool clearGenreComboBoxEnabled;
@@ -165,7 +164,6 @@ namespace Library_wpf.ViewModel
         }
         public async void SaveGenreCommandMethod()
         {
-            isSaveGenreButtonClicked = true;
             Genre newGenre = new Genre();
             newGenre.Name = GenreNameText;
             int validateNum = ValidateGenre(newGenre);
@@ -184,16 +182,11 @@ namespace Library_wpf.ViewModel
                     isEditGenreButtonClicked = false;
                 }
                 _ = GetGenres();
-                isSaveGenreButtonClicked = false;
                 EditGenreButtonEnabled = false;
                 DeleteGenreButtonEnabled = false;
                 AddGenreButtonEnabled = true;
                 ClearGenreComboBoxCommandMethod();
                 ClearGenreText();
-            }
-            else
-            {
-                isSaveGenreButtonClicked = false;
             }
         }
         public void EditGenreCommandMethod()

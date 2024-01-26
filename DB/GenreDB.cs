@@ -87,7 +87,6 @@ namespace Library_wpf.DB
             await using var dataSource = NpgsqlDataSource.Create(_connectionstring);
             await using var command7 = dataSource.CreateCommand(_deletequery);
             command7.Parameters.AddWithValue("@id", genre.Id);
-            MessageBox.Show(command7.CommandText);
             int number = await command7.ExecuteNonQueryAsync();
             return number;
         }

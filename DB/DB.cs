@@ -15,5 +15,11 @@ namespace Library_wpf.DB
             string deletequery = $"DELETE FROM {table} WHERE {deleteColAndParam};";
             return (readquery, addquery, deletequery);
         }
+        protected static (string, string) TailorDB(string table, string addColumns, string insertParameters, string deleteColAndParam) 
+        {
+            string addquery = $"INSERT INTO {table} ({addColumns}) VALUES ({insertParameters});";
+            string deletequery = $"DELETE FROM {table} WHERE {deleteColAndParam};";
+            return (addquery, deletequery);
+        }
     }
 }

@@ -4,8 +4,6 @@ FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\MainWindow.xaml;;
 FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\AuthorView.xaml;;
 FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\BookView.xaml;;
 FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\GenreView.xaml;;
-FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\AddAuthorView.xaml;;
-FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\AddBookView.xaml;;
-FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\EditAuthorView.xaml;;
-FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\EditBookView.xaml;;
+FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\AddEditBookView.xaml;;
+FC:\Users\JafarKh\Documents\GitHub\Library_wpf1\Views\AddEditAuthorView.xaml;;
 

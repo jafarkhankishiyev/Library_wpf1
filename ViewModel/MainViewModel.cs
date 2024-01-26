@@ -25,9 +25,6 @@ namespace Library_wpf.ViewModelNameSpace
         private IBookDB _bookDB;
         private IAuthorDB _authorDB;
         private IGenreDB _genreDB;
-        private BookViewModel _bookViewModel;
-        private AuthorViewModel _authorViewModel;
-        private GenreViewModel _genreViewModel;
         private RelayCommand switchToAuthorViewCommand;
         private RelayCommand switchToGenreViewCommand;
         private RelayCommand switchToBookViewCommand;
@@ -48,14 +45,6 @@ namespace Library_wpf.ViewModelNameSpace
             {
                 CurrentView = new BookView(new BookViewModel(_bookDB, _genreDB, _authorDB, this));
             }
-        }
-        public void SwitchToEditBookViewCommandMethod()
-        {
-            
-        }
-        private void OnSwitchViewRequested(object sender, SwitchViewEventArgs e)
-        {
-            CurrentView = e.CreateView.Invoke();
         }
     }
 }
