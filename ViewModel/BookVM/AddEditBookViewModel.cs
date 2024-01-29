@@ -58,13 +58,31 @@ namespace Library_wpf.ViewModel
             { 
                 selectedAuthors = value; 
                 OnPropertyChanged("SelectedAuthors"); 
+                if(selectedAuthors.Count > 0 && SelectedGenres.Count > 0)
+                {
+                    SaveButtonEnabled = true;
+                }
+                else
+                {
+                    SaveButtonEnabled = false;
+                }
+                ShowSelectedAuthors();
             } 
         }
         private ObservableCollection<Genre> SelectedGenres { get { return selectedGenres; } 
             set 
             { 
                 selectedGenres = value; 
-                OnPropertyChanged("SelectedGenres"); 
+                OnPropertyChanged("SelectedGenres");
+                if (selectedGenres.Count > 0 && SelectedAuthors.Count > 0)
+                {
+                    SaveButtonEnabled = true;
+                }
+                else
+                {
+                    SaveButtonEnabled = false;
+                }
+                ShowSelectedGenres();
             } 
         }
         public RelayCommand AddAnotherAuthorCommand { get { return addAnotherAuthorCommand ?? (addAnotherAuthorCommand = new RelayCommand(obj => AddAnotherAuthorCommandMethod())); } }
@@ -148,13 +166,21 @@ namespace Library_wpf.ViewModel
             {
                 selectedBookAuthor = value;
                 OnPropertyChanged("SelectedBookAuthor");
-                if (selectedBookAuthor == AuthorListSource[0] || selectedBookGenre == GenreListSource[0])
+                if(selectedBookAuthor != AuthorListSource[0])
                 {
-                    SaveButtonEnabled = false;
+                    AddAnotherAuthorButtonEnabled = true;
                 }
                 else
                 {
+                    AddAnotherAuthorButtonEnabled = false;
+                }
+                /*if ((selectedBookAuthor != AuthorListSource[0] || SelectedAuthors.Count != 0) && (SelectedBookGenre != GenreListSource[0] || SelectedGenres.Count != 0))
+                {
                     SaveButtonEnabled = true;
+                }
+                else
+                {
+                    SaveButtonEnabled = false;
                 }
                 if(selectedBookAuthor != AuthorListSource[0])
                 {
@@ -163,7 +189,7 @@ namespace Library_wpf.ViewModel
                 else 
                 { 
                     AddAnotherAuthorButtonEnabled = false; 
-                }   
+                }   */
             }
         }
         public bool SaveButtonEnabled { get { return saveButtonEnabled; } set { saveButtonEnabled = value; OnPropertyChanged("SaveButtonEnabled"); } }
@@ -174,20 +200,12 @@ namespace Library_wpf.ViewModel
             {
                 selectedBookGenre = value;
                 OnPropertyChanged("SelectedBookGenre");
-                if (selectedBookGenre == GenreListSource[0] || SelectedBookAuthor == AuthorListSource[0])
-                {
-                    SaveButtonEnabled = false;
-                }
-                else
-                {
-                    SaveButtonEnabled = true;
-                }
                 if(selectedBookGenre != GenreListSource[0])
                 {
                     AddAnotherGenreButtonEnabled = true;
                 }
-                else 
-                { 
+                else
+                {
                     AddAnotherGenreButtonEnabled = false;
                 }
             }
@@ -236,6 +254,8 @@ namespace Library_wpf.ViewModel
             _bookDB = bookDB;
             _authorDB = authorDB;
             _genreDB = genreDB;
+            SelectedAuthors = [];
+            SelectedGenres = [];
             _ = GetAuthors();
             _ = GetGenres();
             _bookDB = bookDB;
@@ -246,7 +266,6 @@ namespace Library_wpf.ViewModel
             NameText = SelectedBook.Name;
             YearText = SelectedBook.Release.ToString();
         }
-
         public int ValidateBook(Book book)
         {
             NameWarningText = string.Empty;
@@ -257,16 +276,6 @@ namespace Library_wpf.ViewModel
             {
                 NameWarningText = "*fill the name field";
                 return 2;
-            }
-            else if (string.IsNullOrWhiteSpace(book.Author))
-            {
-                AuthorWarningText = "*fill the author field";
-                return 3;
-            }
-            else if (string.IsNullOrEmpty(book.Genre))
-            {
-                GenreWarningText = "*fill the genre field";
-                return 4;
             }
             else if (book.Release == 0)
             {
@@ -290,12 +299,38 @@ namespace Library_wpf.ViewModel
                         SelectedBookAuthor = author;
                         MessageBox.Show("Yes");
                     }
-                }                       
+                }
+                while (SelectedBook.Author.Contains(','))
+                {
+                    string authorToInput = SelectedBook.Author.Substring(0, SelectedBook.Author.IndexOf(','));
+                    authorToInput = authorToInput.TrimStart();
+                    SelectedBook.Author = SelectedBook.Author.Remove(0, SelectedBook.Author.IndexOf(',') + 1);
+                    foreach (Author author in AuthorListSource)
+                    {
+                        if (author.Name == authorToInput)
+                        {
+                            SelectedAuthors.Add(author);
+                        }
+                    }
+                }
+                string lastAuthorToInput = SelectedBook.Author.TrimStart();
+                foreach (Author author in AuthorListSource)
+                {
+                    if (author.Name == lastAuthorToInput)
+                    {
+                        SelectedAuthors.Add(author);
+                    }
+                }
             }
             else
             {
-            SelectedBookAuthor = AuthorListSource[0];
+                SelectedBookAuthor = AuthorListSource[0];
             }
+            if(SelectedAuthors.Count > 1)
+            {
+                SelectedBookAuthor = AuthorListSource[0];
+            }
+            ShowSelectedAuthors();
         }
         public async Task GetGenres()
         {
@@ -309,11 +344,37 @@ namespace Library_wpf.ViewModel
                         SelectedBookGenre = genre;
                     }
                 }
+                while (SelectedBook.Genre.Contains(','))
+                {
+                    string genreToInput = SelectedBook.Genre.Substring(0, SelectedBook.Genre.IndexOf(','));
+                    genreToInput = genreToInput.TrimStart();
+                    SelectedBook.Genre = SelectedBook.Genre.Remove(0, SelectedBook.Genre.IndexOf(',') + 1);
+                    foreach (Genre genre in GenreListSource)
+                    {
+                        if (genre.Name == genreToInput)
+                        {
+                            SelectedGenres.Add(genre);
+                        }
+                    }
+                }
+                string lastGenreToInput = SelectedBook.Genre.TrimStart();
+                foreach (Genre genre in GenreListSource)
+                {
+                    if (genre.Name == lastGenreToInput)
+                    {
+                        SelectedGenres.Add(genre);
+                    }
+                }
             }
             else
             {
                 SelectedBookGenre = GenreListSource[0];
             }
+            if(SelectedGenres.Count > 0)
+            {
+                SelectedBookGenre = GenreListSource[0];
+            }
+            ShowSelectedGenres();
         }
         public void AddAnotherAuthorCommandMethod()
         {
@@ -355,6 +416,11 @@ namespace Library_wpf.ViewModel
                 SelectedAuthorsText = string.Empty;
                 DeleteAnotherAuthorButtonEnabled = false;
             }
+            if(SelectedAuthorsText != string.Empty)
+            {
+                SaveButtonEnabled = true;
+            }
+            else { SaveButtonEnabled = false; }
         }
         public void AddAnotherGenreCommandMethod()
         {
@@ -396,6 +462,11 @@ namespace Library_wpf.ViewModel
                 SelectedGenresText = string.Empty;
                 DeleteAnotherGenreButtonEnabled = false;
             }
+            if(SelectedGenresText !=  string.Empty)
+            {
+                SaveButtonEnabled = true;
+            } 
+            else { SaveButtonEnabled = false; }
         }
         public async void SaveCommandMethod()
         {
@@ -411,11 +482,11 @@ namespace Library_wpf.ViewModel
             {
                 book.Release = 0;
             }
-            if(SelectedAuthors.Count == 0 && SelectedGenres.Count == 0) 
+            book.Author = SelectedBookAuthor.Id.ToString();
+            book.Genre = SelectedBookGenre.Id.ToString();
+            int validateNum = ValidateBook(book);
+            if(SelectedAuthors == null && SelectedGenres == null) 
             {    
-                book.Author = SelectedBookAuthor.Id.ToString();
-                book.Genre = SelectedBookGenre.Id.ToString();
-                int validateNum = ValidateBook(book);
                 if (validateNum == 1)
                 {
                     if(SelectedBook != null)
@@ -434,7 +505,23 @@ namespace Library_wpf.ViewModel
             }
             else
             {
-
+                if(validateNum == 1)
+                {
+                    if (SelectedBook != null)
+                    {
+                        int number = await _bookDB.EditBook(SelectedBook, book, SelectedAuthors, SelectedGenres);
+                        number = number > 0 ? 1: 0;
+                        MessageBox.Show($"Modified {number} object.");
+                        _mainViewModel.CurrentView = new BookView(new BookViewModel(_bookDB, _genreDB, _authorDB, _mainViewModel));
+                    }
+                    else
+                    {
+                        int number = await _bookDB.AddBook(book, SelectedAuthors, SelectedGenres);
+                        number = number > 0 ? 1 : 0;
+                        MessageBox.Show($"Added {number} object.");
+                        _mainViewModel.CurrentView = new BookView(new BookViewModel(_bookDB, _genreDB, _authorDB, _mainViewModel));
+                    }
+                }
             }
         }
     }
